@@ -1,0 +1,22 @@
+#loginMain{
+  height: 750px;
+  background-color: beige;
+  display: flex;
+  justify-content: center;
+}
+#loginBox{
+  width: 400px;
+  align-items: center;
+  justify-content: center;
+}
+#loginBtn{
+  width: 400px;
+  height: 30px;
+  margin-top: 10px;
+}
+.loginInput{
+  font-size: 30px;
+  height: 25px;
+  width: 390px;
+  margin-top: 10px;
+}

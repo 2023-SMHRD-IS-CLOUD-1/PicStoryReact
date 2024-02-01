@@ -1,0 +1,11 @@
+#joinMain{
+  height: 750px;
+  background-color: beige;
+  display: flex;
+  justify-content: center;
+}
+#joinBox{
+  width: 800px;
+  align-items: center;
+  justify-content: center;
+}

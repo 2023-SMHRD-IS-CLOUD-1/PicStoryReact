@@ -1,0 +1,28 @@
+#header-container {
+  height: 85px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+#logo {
+  margin-left: 152px;
+}
+#text1 {
+  display: block;
+  margin-right: 100px;
+}
+#menu-container {
+  margin: auto 0;
+}
+#loginContainer {
+  position: relative;
+  margin: auto 0;
+}
+#loginBtn {
+  color: black;
+}
+#aaaa{
+  width: 30px;
+  height: 30px;
+  margin-right: 170px;
+}

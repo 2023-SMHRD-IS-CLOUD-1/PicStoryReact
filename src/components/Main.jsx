@@ -8,7 +8,7 @@ const Main = () => {
         <button>바로가기→</button>
       </div>
       <div id='mainContent2'>
-        <h1>SNS 서비스 설명</h1>
+        <h1>SNS 서비스 설명!!!!</h1>
         <button>바로가기→</button>
       </div>
     </div>

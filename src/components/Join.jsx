@@ -3,7 +3,6 @@ import '../css/Join.css'
 const Join = () => {
 
 
-
   return (
     <div id='joinMain'>
       <div id='joinBox'>

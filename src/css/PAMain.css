@@ -1,0 +1,7 @@
+#paMainContainer {
+  width: 88%;
+  height: 80.8vh;
+  background-color: thistle;
+  margin-left: 12%;
+  overflow-y: scroll;
+}

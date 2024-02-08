@@ -12,7 +12,7 @@ const Header = () => {
 
   return (
     <div id='header-container'>
-      <a href="#" id='logo'><img src="/PicSTory.png" alt="로고" style={logo}/></a>
+      <a href="#" id='logo'><img src="/PicStoryLogo.png" alt="로고" style={logo}/></a>
       <div id='menu-container'>
         <button className='menuBtn'>홈</button>
         ㅣ

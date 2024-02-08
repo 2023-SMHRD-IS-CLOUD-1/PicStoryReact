@@ -8,8 +8,8 @@ import HomePage from "./components/HomePage";
 import './App.css'
 function App() {
   return (
-    <div className="App">
-      <PhotoAlbum/>
+    <div Login="App">
+      <HomePage/>
     </div>
   );
 }

@@ -7,11 +7,8 @@ const PALeftSide = () => {
       <button>전체사진</button>
       <br />
       <button>폴더 ▼</button>
-
       <br />
-       <button>즐겨찾기</button>
-       <br />
-       <button>업로드</button>
+      <button>업로드</button>
     </div>
   )
 }

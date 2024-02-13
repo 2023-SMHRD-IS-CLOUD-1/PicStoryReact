@@ -5,7 +5,7 @@
   width: 100%;
 }
 #logo {
-  margin-left: 152px;
+  margin-left: 350px;
 }
 #text1 {
   display: block;
@@ -15,16 +15,16 @@
   margin: auto 0;
 }
 #loginContainer {
-  position: relative;
   margin: auto 0;
+  margin-right: 350px;
+  position: relative;
+  margin-top: 40px;
 }
-#loginBtn {
-  color: black;
-}
-#aaaa{
-  width: 30px;
-  height: 30px;
-  margin-right: 170px;
+.loginBtn11 {
+  font-size: 15px;
+  text-decoration: none;
+  color: inherit;
+  margin-left: 15px;
 }
 .menuBtn{
   background: none;
@@ -35,4 +35,7 @@
 }
 .menuBtn:hover{
   cursor: pointer;
+}
+body{
+  font-family: Verdana, Geneva, Tahoma, sans-serif
 }

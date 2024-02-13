@@ -1,6 +1,5 @@
 import React from 'react'
 import '../css/Header.css'
-import { FaRegUserCircle } from "react-icons/fa";
 
 
 const Header = () => {
@@ -10,7 +9,7 @@ const Header = () => {
     height : '100%'
   }
 
-  return (
+  return ( 
     <div id='header-container'>
       <a href="#" id='logo'><img src="/PicStoryLogo.png" alt="로고" style={logo}/></a>
       <div id='menu-container'>
@@ -21,7 +20,8 @@ const Header = () => {
         <button className='menuBtn'>SNS</button>
       </div>
       <div id='loginContainer'>
-        <a href="" id='loginBtn'><FaRegUserCircle id='aaaa'/></a>
+        <a href="#" className='loginBtn11'>로그인</a>
+        <a href="#" className='loginBtn11'>회원가입</a>
       </div>
     </div>
   )

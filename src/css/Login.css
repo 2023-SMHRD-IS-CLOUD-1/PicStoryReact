@@ -1,22 +1,66 @@
 #loginMain{
   height: 750px;
-  background-color: beige;
+  background-color: white;
+  position: relative;
   display: flex;
   justify-content: center;
+  text-align: center;
+  align-items: center;
 }
 #loginBox{
   width: 400px;
   align-items: center;
   justify-content: center;
 }
-#loginBtn{
-  width: 400px;
-  height: 30px;
-  margin-top: 10px;
+#l-loginBtn {
+  float:right;
+  width: 75px;
+  height: 178px;
+  border: 0px;
+  background: #3c64e7;
+  border-radius:7px;
+  padding: 10px;
+  color: white;
+  font-size:22px;
 }
 .loginInput{
-  font-size: 30px;
-  height: 25px;
-  width: 390px;
+  padding: 16px;
+  border-radius:7px;
+  border:0px;
+  background: rgba(24, 66, 129, 0.2);
+  display: block;
+  margin: 5px;
+  width: 280px;  
+  color:white;
+  font-size:18px;
+  /* font-weight: bolder; */
+  height: 54px;
+}
+.loginInput:focus{
+  outline-color: rgba(0,0,0,0);
+  background: rgba(255,255,255,.95);
+  color: #3c64e7;
+  border: 2px solid;
+}
+.loginInput::-webkit-input-placeholder {
+  color: white;
+}
+
+.loginInput:focus::-webkit-input-placeholder {
+  color: #3c64e7;
+}
+.a-container{
+  text-align: center;
   margin-top: 10px;
+}
+.a-container a{
+  text-decoration: none;
+  color: #1c3e9e;
+}
+.l-box{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+hr{
+  border-color: #224fce;
 }

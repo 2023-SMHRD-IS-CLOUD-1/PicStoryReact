@@ -26,3 +26,13 @@
   height: 30px;
   margin-right: 170px;
 }
+.menuBtn{
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  margin-right: 20px;
+}
+.menuBtn:hover{
+  cursor: pointer;
+}

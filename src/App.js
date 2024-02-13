@@ -1,17 +1,22 @@
-import Header from "./components/Header";
-import Main from "./components/Main";
-import Footer from "./components/Footer";
-import Login from "./components/Login";
-import Join from "./components/Join";
 import PhotoAlbum from "./components/PhotoAlbum";
 import HomePage from "./components/HomePage";
+import LoginPage from "./components/LoginPage";
+import JoinPage from "./components/JoinPage";
+import { Route, Routes } from "react-router-dom";
+import axios from "axios";
+
 import './App.css'
 function App() {
+
   return (
-    <div Login="App">
-      <HomePage/>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage/>}></Route>
+      <Route path="/login" element={<LoginPage/>}></Route>
+      <Route path="/join" element={<JoinPage/>}></Route>
+      <Route path="/photoAlbum" element={<PhotoAlbum/>}></Route>
+    </Routes>
   );
+
 }
 
 export default App;

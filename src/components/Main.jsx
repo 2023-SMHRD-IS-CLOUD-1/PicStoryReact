@@ -24,6 +24,16 @@ const Main = () => {
           <img src="/images/mainimg.png" alt="홈메인이미지" id='mainImg'/>
         </div>
       </div>
+      <div id='mainImg2Container'>
+        <img src="/images/mainpg-removebg.png" alt="홈메인이미지" id='mainImg2' />
+
+        <p>사진을 자동으로 인식해 분류해줘요.
+          <br />
+          원하는 태그를 직접 선택해 분류할 수 있어요.
+        </p>
+
+      </div>
+
     </div>
   )
 }

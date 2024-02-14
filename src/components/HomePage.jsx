@@ -5,7 +5,7 @@ import Footer from './Footer'
 
 const HomePage = () => {
   return (
-    <div>
+    <div className='all'>
       <Header/>
       <Main/>
       <Footer/>

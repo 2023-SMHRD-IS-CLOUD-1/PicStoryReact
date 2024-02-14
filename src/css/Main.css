@@ -60,3 +60,31 @@ h1 {
   width: 400px;
   height: 300px;
 }
+
+#mainImg2Container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 1000px;
+  background-color: whitesmoke;
+}
+
+#mainImg2{
+  width: 897px;
+  height: 526px;
+  margin-bottom: 20px;
+
+}
+
+#mainImg2Container p {
+
+  color: rgb(92, 92, 92);
+  max-width: 465px;
+  margin-top: 15px;
+  font-size: 18px;
+  line-height: 26px;
+  letter-spacing: 1px;
+  word-break: keep-all;
+}

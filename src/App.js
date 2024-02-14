@@ -2,6 +2,7 @@ import PhotoAlbum from "./components/PhotoAlbum";
 import HomePage from "./components/HomePage";
 import LoginPage from "./components/LoginPage";
 import JoinPage from "./components/JoinPage";
+import MyInfoPage from "./components/MyInfoPage";
 import { Route, Routes } from "react-router-dom";
 import axios from "axios";
 
@@ -15,6 +16,7 @@ function App() {
       <Route path="/login" element={<LoginPage/>}></Route>
       <Route path="/join" element={<JoinPage/>}></Route>
       <Route path="/photoAlbum" element={<PhotoAlbum/>}></Route>
+      <Route path="/myinfo" element={<MyInfoPage/>}></Route>
     </Routes>
   );
 

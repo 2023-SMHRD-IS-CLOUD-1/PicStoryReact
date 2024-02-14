@@ -1,0 +1,117 @@
+.myinfo-bg{
+    background-color: #F8F8F8;
+    width: 70%;
+    margin: 0 auto;
+}
+.info-top{
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+.blueContainer{
+    height: 270px;
+    background-color: #377be0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.blueContainer .p-name{
+    margin: 5px 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+}
+.blueContainer .p-id{
+    margin: 5px 0;
+    font-size: 15px;
+    font-weight: 520;
+    color: #ccc;
+}
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+    margin-bottom: 9px;
+}
+.profile-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+.info-box-s{
+    background-color: white;
+    display: flex;
+    padding: 21px 0px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+.s-item{
+    flex-grow: 1;
+    border-right: 1px solid #ccc;
+    padding: 15px 20px;
+}
+.s-item:last-child {
+    border-right: none;
+}
+.info-box-s .item-content{
+    font-size: 23px;
+    font-weight: bold;
+    color: #377be0;
+    margin-bottom: 5px;
+}
+.info-box-s .item-title{
+    font-size: 15px;
+}
+.info-box-l{
+    background-color: white;
+    padding: 21px 16px;
+    height: max-content;
+    margin-bottom: 10px;
+}
+.l-item{
+    display: flex;
+    margin-bottom: 10px;
+}
+.info-box-l .info-list{
+    font-size: 16px;
+    width: 13%;
+}
+.info-box-l button{
+    margin-top: 15px;
+    padding: 7px 13px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    background-color: #377be0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.info-box-l .info-list-content{
+    font-size: 20px;
+    font-weight: bolder;
+    margin-left: 13px;
+}
+.tag-box{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 100px;
+}
+.tag{
+    flex: 0 0 calc(25% - 3px);
+    height: fit-content;
+    color: white;
+    background-color: #2859a3;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    text-align: center;
+    padding: 5px 0px;
+    border-radius: 10px;
+}

@@ -1,12 +1,17 @@
-import React, { useState, createContext } from 'react'
-import '../css/Login.css'
+import React, { useState, createContext, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import '../css/Login.css';
 import axios from 'axios';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { UserContext } from '../contexts/User'
 
-export const UserContext = createContext();
 
 const Login = () => {
+  const nav = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
@@ -14,55 +19,67 @@ const Login = () => {
 
   function login() {
 
-    axiosInstance.post("/login", {
-      user_id: id,
-      user_pw: pw
-    })
-      .then(res => {
-        console.log(res)
-        console.log(res.data)
-        console.log(id, pw)
-        if (res.data === '') {
-          console.log("없는 계정")
-        } else if (res.data.user_id === id && res.data.user_pw === pw) {
-          console.log("아이디와 비밀번호 일치")
-          UserContext.setUser(id);
-        }
-      }).catch(error => {
-        console.error("에러:", error.message);
-      });
-
+    if (id != '' && pw != '') {
+      axiosInstance.post("/login", {
+        user_id: id,
+        user_pw: pw
+      })
+        .then(res => {
+          console.log(res.data)
+          console.log(id, pw)
+          if (res.data === '') {
+            console.log("없는 계정")
+          } else if (res.data.user_id === id && res.data.user_pw === pw) {
+            console.log("아이디와 비밀번호 일치")
+            nav('/');
+          }
+        }).catch(error => {
+          console.error("에러:", error.message);
+        });
+    } else {
+      console.log('입력해라');
+    }
   }
 
   return (
-    <UserContext.Provider value={{ user: id, setUser: setId }}>
-      <div id='loginMain'>
-        <div id='loginBox'>
-          <h1>Login</h1>
-          <hr />
-          <div className='l-box'>
-            <button id='l-loginBtn' onClick={login}>Login</button>
-            <input
+    <UserContext.Provider value={{ id, setId, pw, setPw }}>
+      <div className='loginMain'>
+        <div className='loginBox'>
+          <p>로그인하세요</p>
+          <Box
+            component="form" className='input-layer'
+            sx={{
+              '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
               type="text"
-              className='loginInput'
-              placeholder='아이디'
+              className="outlined-basic"
+              label="아이디"
+              variant="outlined"
               value={id}
               onChange={(e) => setId(e.target.value)}
             />
-            <input
+
+            <TextField
               type="password"
-              className='loginInput'
-              placeholder='비밀번호'
+              className="outlined-basic"
+              label="비밀번호"
+              variant="outlined"
               value={pw}
               onChange={(e) => setPw(e.target.value)}
             />
+          </Box>
+          <div className='l-box'>
+            <Link to="/join">계정을 잊으셨나요?</Link>
+            <button id='l-loginBtn' onClick={login} component={Link} to="/">로그인</button>
           </div>
-          <hr />
-          <div className='a-container'>
-            <a href="#">회원가입</a>
-            <span>  /  </span>
-            <a href="#">계정 찾기</a>
-          </div>
+        </div>
+        <div className='a-container'>
+          <p>PicStory가 처음이세요?</p>
+          <Link to="/join">회원가입</Link>
         </div>
       </div>
     </UserContext.Provider>

@@ -1,8 +1,9 @@
 #header-container {
-  height: 85px;
+  height: 65px;
   display: flex;
   justify-content: space-between;
   width: 100%;
+  background-color: #f9f9f9;
 }
 #logo {
   margin-left: 350px;
@@ -10,9 +11,6 @@
 #text1 {
   display: block;
   margin-right: 100px;
-}
-#menu-container {
-  margin: auto 0;
 }
 #loginContainer {
   margin: auto 0;

@@ -1,16 +1,18 @@
 import React from 'react'
 import Header from './Header'
-import Main from './Main'
+import Login from './Login'
 import Footer from './Footer'
 
-const HomePage = () => {
+const LoginPage = () => {
   return (
-    <div className='all'>
+
+    <>
       <Header/>
-      <Main/>
+      <Login/>
       <Footer/>
-    </div>
-  )
+    </>
+
+    )
 }
 
-export default HomePage
+export default LoginPage

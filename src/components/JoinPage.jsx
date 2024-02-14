@@ -1,16 +1,17 @@
 import React from 'react'
 import Header from './Header'
-import Main from './Main'
+import Join from './Join'
 import Footer from './Footer'
 
-const HomePage = () => {
+
+const JoinPage = () => {
   return (
-    <div className='all'>
+    <>
       <Header/>
-      <Main/>
+      <Join/>
       <Footer/>
-    </div>
+    </>
   )
 }
 
-export default HomePage
+export default JoinPage

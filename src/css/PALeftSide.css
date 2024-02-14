@@ -1,6 +1,75 @@
 #paSideConatiner{
   width: 12%;
   height: 100%;
-  background-color: cadetblue;
   position: fixed;
+  background-color: #9D9D9F;
+}
+.sideBtn{
+  padding-left: 20px;
+  display: block;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: auto;
+}
+.sideBtn:hover{
+  background-color: gray;
+}
+#folderParentContainer{
+  padding-left: 20px;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+}
+#folderParentContainer:hover{
+  
+}
+#folderParent{
+  width: 179px;
+  cursor: pointer;
+}
+#folderParent:hover{
+  background-color: gray;
+}
+#folderParentOption{
+  padding-top: 2px;
+  font-size: 17px;
+  cursor: pointer;
+  position: relative;
+}
+#folderParentOption:hover{
+  color: blue;
+}
+
+#folderList{
+  list-style-type: none;
+  margin-top: 3px;
+}
+#folders{
+  width: 200px;
+  display: flex;
+}
+.folderContainer{
+  display: flex;
+  margin-top: 5px;
+}
+.folderName{
+  display: block;
+  width: 200px;
+  cursor: pointer;
+}
+.folderName:hover{
+  background-color: gray;
+}
+.folderOption{
+  margin-right: 0px;
+  display: block;
+  width: 40px;
+  cursor: pointer;
+  padding-left: 10px;
+}
+.folderOption:hover{
+  color: blue;
 }

@@ -1,8 +1,9 @@
 #header-container {
-  height: 85px;
+  height: 65px;
   display: flex;
   justify-content: space-between;
   width: 100%;
+  background-color: #f9f9f9;
 }
 #logo {
   margin-left: 350px;

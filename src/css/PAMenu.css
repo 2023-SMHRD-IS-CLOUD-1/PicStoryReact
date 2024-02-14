@@ -1,6 +1,71 @@
 #paMenuContainer{
   width: 88%;
   height: 10vh;
-  background-color: slategray;
   margin-left: 12%;
+  position: relative;
+  display: flex;
+}
+#paMenuOption{
+  display: flex;
+  margin-top: 7px;
+  margin-left: 5px;
+}
+#searchContainer{
+  display: flex;
+  width: 400px;
+  height: 40px;
+  margin: auto;
+  margin-top: 10px;
+  margin-right: 0px;
+}
+#photoSelectAll{
+  font-size: 17px;
+}
+#photoControl{
+  display: flex;
+}
+.photoControlBtn{
+  margin-left: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  height: min-content;
+  border: 1px solid black;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-radius: 3px;
+}
+#photoSearchText{
+  width: 300px;
+  height: 20px;
+}
+#photoSearchBtn{
+  border: 1px solid black;
+  margin-left: 5px;
+  margin-top: 1PX;
+  height: 23px;
+  cursor: pointer;
+}
+#tagChooseContainer{
+  position: absolute;
+  margin-top: 65px;
+  margin-left: 5px;
+}
+#tagChooseBtn{
+  font-size: 17px;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: 0 3px;
+}
+#selectedTagContainer{
+  position: absolute;
+  display: flex;
+  margin-top: 66px;
+  margin-left: 90px;
+  font-size: 17px;
+}
+.selectedTags{
+  border: 1px solid black;
+  margin-left: 20px;
+  font-size: 14px;
 }

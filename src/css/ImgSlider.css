@@ -1,0 +1,12 @@
+.imgSliderContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.imgSlider {
+    width: 800px;
+    height: 500px;
+}

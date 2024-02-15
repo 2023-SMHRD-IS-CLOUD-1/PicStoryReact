@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+	font-family: "NotoSansKRLight";
+	src: url(./assets/fonts/NotoSansKR-Light.ttf);
+}
+
+
+:root {
+	--font-googleGugi: "googleGugi";
+	--font-googleSingleDay: "NotoSansKRLight";
+}

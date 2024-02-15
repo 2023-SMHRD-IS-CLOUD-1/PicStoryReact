@@ -6,11 +6,11 @@ import Footer from './Footer'
 
 const JoinPage = () => {
   return (
-    <>
+    <div className='all'>
       <Header/>
       <Join/>
       <Footer/>
-    </>
+    </div>
   )
 }
 

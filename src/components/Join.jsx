@@ -37,7 +37,7 @@ const Join = () => {
     };
 
     // 회원가입 데이터 보내는 통신
-    if (pw == pwConfirm) {
+    
       axiosInstance.post("/joinIn", userJoinData)
         .then((res) => {
           console.log('회원가입 : ', res);
@@ -49,7 +49,7 @@ const Join = () => {
         .catch(error => {
           console.error(error);
         });
-    };
+    
   }
 
   // id 중복확인 => true면 사용가능 false는 불가
@@ -236,7 +236,7 @@ const Join = () => {
           id='l-joinBtn'
           variant="contained"
           onClick={handleJoinIn}
-          disabled={!(idMessage && nickMessage && mailMessage && pwMessage)} // 이 부분 수정
+          disabled={!(idMessage && nickMessage && mailMessage && pw == pwConfirm)} // 이 부분 수정
           component={Link} // Link 컴포넌트 사용
           to="/" // 이동할 경로 지정
         >가입하기</Button>

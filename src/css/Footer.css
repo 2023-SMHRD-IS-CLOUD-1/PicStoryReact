@@ -10,7 +10,7 @@
   margin: auto 0;
 }
 
-ul li::after {
+.footerUl .footerLi::after {
   content: '';
   display: inline-block;
   width: 1px;

@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../css/PAMenu.css'
+import { HiXMark } from "react-icons/hi2";
+import TagModal from '../TagModal';
 
 const PAMenu = () => {
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const showModal = ()=>{
+    setModalOpen(true);
+  }
+
   return (
     <div id='paMenuContainer'>
       <div id='paMenuOption'>
@@ -15,17 +24,17 @@ const PAMenu = () => {
         </div>
       </div>
       <div id='tagChooseContainer'>
-        <div id='tagChooseBtn'>태그 선택</div>
-      </div>
+        <div id='tagChooseBtn' onClick={showModal}>태그 선택</div>
+        {modalOpen && <TagModal setModalOpen={setModalOpen}/>}
+      </div> 
       <div id='selectedTagContainer'>
-        <div className='selectedTags'>
-          #강아지
-        </div>
-        <div className='selectedTags'>
-          #고양이
-        </div>
-        <div className='selectedTags'>
-          #자동차
+        <div className='tagContainer'>
+          <div className='selectedTags'>
+            #강아지
+          </div>
+          <div className='tagDelete'>
+            <HiXMark />
+          </div>
         </div>
       </div>
       <div id='searchContainer'>

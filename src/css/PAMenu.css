@@ -65,7 +65,19 @@
   font-size: 17px;
 }
 .selectedTags{
-  border: 1px solid black;
   margin-left: 20px;
   font-size: 14px;
+}
+.tagContainer{
+  display: flex;
+}
+.tagDelete{
+  margin-top: 2px;
+  color: gray;
+  cursor: pointer;
+}
+.tagDelete:hover{
+  color: black;
+  font-size: 17px;
+  font-weight: bold;
 }

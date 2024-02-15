@@ -31,6 +31,7 @@ const Login = () => {
             console.log("없는 계정")
           } else if (res.data.user_id === id && res.data.user_pw === pw) {
             console.log("아이디와 비밀번호 일치")
+            sessionStorage.setItem("user_id", id);
             nav('/');
           }
         }).catch(error => {

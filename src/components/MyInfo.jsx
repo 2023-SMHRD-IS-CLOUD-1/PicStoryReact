@@ -1,7 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 import '../css/MyInfo.css'
 
 const MyInfo = () => {
+
+    const [id, setId] = useState('');
+    const [name, setName] = useState('');
+    const [nick, setNick] = useState('');
+    const [mail, setMail] = useState('');
+
+    const axiosInstance = axios.create({
+        baseURL: "http://localhost:8099/picstory",
+      })
+
+    useEffect(() => {
+        setId(sessionStorage.getItem("user_id"));
+        console.log("마이페이지", id)
+        if (id) {
+            axiosInstance.post("/myinfo", {
+                user_id: id,
+            }).then(res => {
+                console.log(res)
+                setName(res.data.user_name);
+                setNick(res.data.user_nick);
+                setMail(res.data.user_mail);
+            }).catch(error => {
+                console.error("에러:", error.message);
+            });
+        }
+    });
+
+
   return (
       <div className='myinfo-bg'>
           <div className='info-top'>
@@ -11,8 +40,8 @@ const MyInfo = () => {
               <div className='profile-img'>
                   <img src='/logo192.png' />
               </div>
-              <p className='p-name'>이름</p>
-              <p className='p-id'>아이디</p>
+              <p className='p-name'>{name}</p>
+              <p className='p-id'>{id}</p>
           </div>
           <div className='info-box-s'>
               <div className='s-item'>
@@ -29,21 +58,21 @@ const MyInfo = () => {
               <h2>회원 정보</h2>
               <div className='l-item'>
                   <div className='info-list'>이름</div>
-                  <div className='info-list-content'>뇽뇽이</div>
+                  <div className='info-list-content'>{name}</div>
               </div>
               <div className='l-item'>
                   <div className='info-list'>아이디</div>
-                  <div className='info-list-content'>sefsd</div>
+                  <div className='info-list-content'>{id}</div>
               </div>
               <div className='l-item'>
                   <div className='info-list'>닉네임</div>
-                  <div className='info-list-content'>1234</div>
+                  <div className='info-list-content'>{nick}</div>
               </div>
               <div className='l-item'>
                   <div className='info-list'>이메일</div>
-                  <div className='info-list-content'>sefsd@dkfd.dfd</div>
+                  <div className='info-list-content'>{mail}</div>
               </div>
-              <button>수정하기</button>
+              <button>정보 수정</button>
           </div>
 
           <div className='info-box-l'>

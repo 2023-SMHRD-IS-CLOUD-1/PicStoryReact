@@ -1,7 +1,64 @@
 #paMainContainer {
-  width: 88%;
+  width: 85%;
   height: 80.8vh;
-  background-color: thistle;
   margin-left: 12%;
   overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 40px;
+}
+#paMainPhotoContainer{
+  background-color: #E8F5FF;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 190px;
+  height: 210px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+.paMainPhoto{
+  margin-top: 2px;
+  width: 190px;
+  height: 150px;
+}
+.photoCheck{
+  display: none;
+} 
+.checkboxContainer{
+  margin-top: 3px;
+  margin-left: 3px;
+}
+.photoHeader{
+  display: flex;
+}
+.photoCheckLabel{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  color : #404040;
+  background-color : white;    
+  border: 1px solid black;
+  border-radius: 3px;
+  text-align: center;
+}
+.photoCheckLabel:hover{
+  background-color: skyblue;
+}
+.favorBtnContainer{
+  margin-left: 135px;
+  font-size: 30px;
+  position: relative;
+  
+}
+.photoTitle{
+  font-size: 13px;
+  text-align: center;
+}
+.favorBtn{
+  position: absolute;
+  top: -10px;
+}
+.favorBtn:hover{
+  cursor: default;
+  color: skyblue;
 }

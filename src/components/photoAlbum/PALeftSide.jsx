@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../../css/PALeftSide.css'
 import { CiMenuKebab } from "react-icons/ci";
-
+import TotalphotoModal from '../TotalphotoModal';
 const PALeftSide = () => {
 
   const [showIcon, setShowIcon]= useState('▶');

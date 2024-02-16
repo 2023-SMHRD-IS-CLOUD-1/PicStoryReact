@@ -1,0 +1,21 @@
+#totalPhotoModalContainer{
+  width: max-content;
+  z-index: 999;
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  cursor: default;
+  font-size: 15px;
+  margin-top: 20px;
+}
+#totalPhotoModalContainer:hover{
+  background-color: gray;
+  color: white;
+  z-index: 999;
+}
+#totalPhotoModalClose{
+  position: absolute;
+  right: 4px;
+  top: 2.5px;
+}

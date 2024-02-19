@@ -31,7 +31,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
         user_num: userNum
       });
 
-      const s3UploadFileNameMap = response.data.map(item => item.photo_name);
+      const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
 
       if (s3UploadFileNameMap.length > 0) {
         const cleanedFileNames = s3UploadFileNameMap.map(name => name.replace(/"/g, ''));

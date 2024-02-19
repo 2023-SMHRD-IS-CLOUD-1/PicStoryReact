@@ -57,8 +57,11 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
 
         const fileNames = uploadedFileData.map((fileData) => fileData.fileName);
         const fileURLs = uploadedFileData.map((fileData) => fileData.fileUrl);
+        const userPhotoName = selectedFiles.map((file) => file.name);
         console.log('업로드된 파일 이름:', fileNames);
         console.log('업로드된 파일 URL:', fileURLs);
+        console.log('업로드된 파일 user지정 이름:', userPhotoName);
+
 
         if (fileURLs.length === 0) {
           return;
@@ -67,13 +70,15 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
         const fileNamesString = JSON.stringify(fileNames);
         const fileURLsString = JSON.stringify(fileURLs);
         const fileSizeString = JSON.stringify(uploadedFileSizes);
+        const userPhotoNameString = JSON.stringify(userPhotoName);
         const storageUserNum = sessionStorage.getItem("user_num");
 
         console.log('uploadedFileSize', uploadedFileSizes);
 
         const data = {
           user_num: storageUserNum,
-          photo_name: fileNamesString,
+          s3_photo_name: fileNamesString,
+          user_photo_name: userPhotoNameString,
           photo_url: fileURLsString,
           photo_size: fileSizeString,
           length: fileNames.length

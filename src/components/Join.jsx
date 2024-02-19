@@ -56,7 +56,7 @@ const Join = () => {
     if (id == '') {
       alert('아이디를 입력하세요.');
     } else {
-      axiosInstance.get("/IdDoubleCheck", {
+      axiosInstance.get("/idDoubleCheck", {
         params: {
           user_id: id
         }

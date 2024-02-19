@@ -1,0 +1,28 @@
+.checkMain {
+  background-color: white;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px;
+  margin: 50px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px 0px rgba(184, 184, 184, 0.789);
+}
+
+.checkBox {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+}
+
+.checkBox p {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px;
+}
+
+.btnBox {
+  padding-top: 30px;
+}

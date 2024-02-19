@@ -28,7 +28,8 @@ const Login = () => {
           console.log(res.data)
           console.log(id, pw)
           if (res.data === '') {
-            console.log("없는 계정")
+            alert('로그인 정보가 일치하지 않습니다.');
+
           } else if (res.data.user_id === id && res.data.user_pw === pw) {
             console.log("아이디와 비밀번호 일치")
             sessionStorage.setItem("user_id", id);
@@ -38,8 +39,10 @@ const Login = () => {
         }).catch(error => {
           console.error("에러:", error.message);
         });
+    } else if (id == '') {
+      alert('아이디를 입력하세요.');
     } else {
-      console.log('입력해라');
+      alert('비밀번호를 입력하세요.');
     }
   }
 
@@ -47,7 +50,7 @@ const Login = () => {
     <UserContext.Provider value={{ id, setId, pw, setPw }}>
       <div className='loginMain'>
         <div className='loginBox'>
-          <p>로그인하세요</p>
+          <p>로그인</p>
           <Box
             component="form" className='input-layer'
             sx={{
@@ -75,8 +78,8 @@ const Login = () => {
             />
           </Box>
           <div className='l-box'>
-            <Link to="/join">계정을 잊으셨나요?</Link>
-            <button id='l-loginBtn' onClick={login} component={Link} to="/">로그인</button>
+            <Link to="/account">계정을 잊으셨나요?</Link>
+            <button id='l-loginBtn' onClick={login} component={Link} style={{ cursor: 'pointer' }} to="/">로그인</button>
           </div>
         </div>
         <div className='a-container'>

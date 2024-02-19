@@ -1,0 +1,15 @@
+.joinMain {
+  height: 750px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 30px;
+  margin-bottom: 100px;
+}
+
+.joinBox p {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 15px 5px;
+}

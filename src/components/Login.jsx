@@ -29,7 +29,7 @@ const Login = () => {
           console.log(id, pw)
           if (res.data === '') {
             alert('로그인 정보가 일치하지 않습니다.');
-            
+
           } else if (res.data.user_id === id && res.data.user_pw === pw) {
             console.log("아이디와 비밀번호 일치")
             sessionStorage.setItem("user_id", id);
@@ -39,7 +39,7 @@ const Login = () => {
         }).catch(error => {
           console.error("에러:", error.message);
         });
-    } else if (id == ''){
+    } else if (id == '') {
       alert('아이디를 입력하세요.');
     } else {
       alert('비밀번호를 입력하세요.');
@@ -78,8 +78,8 @@ const Login = () => {
             />
           </Box>
           <div className='l-box'>
-            <Link to="/join">계정을 잊으셨나요?</Link>
-            <button id='l-loginBtn' onClick={login} component={Link} style={{cursor:'pointer'}} to="/">로그인</button>
+            <Link to="/account">계정을 잊으셨나요?</Link>
+            <button id='l-loginBtn' onClick={login} component={Link} style={{ cursor: 'pointer' }} to="/">로그인</button>
           </div>
         </div>
         <div className='a-container'>

@@ -1,20 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PALeftSide from './photoAlbum/PALeftSide'
-import PAMain from './photoAlbum/PAMain'
 import Header from './Header'
 import PAMenu from './photoAlbum/PAMenu'
-import '../css/PhotoAlbum.css'
+import PAMain1 from './photoAlbum/PAMain1'
+import '../css/PhotoAlbum.css';
+
 const PhotoAlbum = () => {
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [fileNames, setFileNames] = useState([]);
+  
+
   return (
     <>
-      <Header/>
+      <Header />
       <div id='photoAlbum'>
-        <PALeftSide/>
+        <PALeftSide setUploadSuccess={setUploadSuccess} setFileNames={setFileNames} />
         <PAMenu/>
-        <PAMain/>
+        <PAMain1 fileNames={fileNames} uploadSuccess={uploadSuccess}/>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default PhotoAlbum
+export default PhotoAlbum;

@@ -2,6 +2,9 @@ import React from 'react'
 import '../css/Main.css'
 import { Link } from 'react-router-dom'
 const Main = () => {
+
+
+  
   return (
     <div id='mainContainer'>
       <div id='mainContent1'>

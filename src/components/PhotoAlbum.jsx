@@ -46,8 +46,8 @@ const PhotoAlbum = () => {
         <Header />
         <PALeftSide setUploadSuccess={setUploadSuccess} setFileNames={setFileNames} />
         <PAMenu />
-        {/* <PAMain1 fileNames={fileNames} uploadSuccess={uploadSuccess} /> */}
-        <PAMain/>
+        <PAMain1 fileNames={fileNames} uploadSuccess={uploadSuccess} />
+        {/* <PAMain/> */}
       </div>
       </UserLoginContext.Provider>
     </>

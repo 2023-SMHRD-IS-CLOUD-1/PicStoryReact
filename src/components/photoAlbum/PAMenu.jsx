@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import '../../css/PAMenu.css'
 import { HiXMark } from "react-icons/hi2";
 import TagModal from '../TagModal';
@@ -6,10 +6,27 @@ import TagModal from '../TagModal';
 const PAMenu = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
+  // const {handleImgDownload} = useContext(PAMenuTodoContext);
+
+  const [imageUrls, setImageUrls] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const showModal = ()=>{
     setModalOpen(true);
   }
+
+  const downloadSelectedImages = () => {
+    for (const fileName of selectedImages) {
+      const selectedImage = imageUrls.find((image) => image.fileName === fileName);
+
+      if (selectedImage) {
+        const link = document.createElement('a');
+        link.href = selectedImage.url;
+        link.download = fileName;
+        link.click();
+      }
+    }
+  };
 
   return (
     <div id='paMenuContainer'>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../../css/PALeftSide.css'
 import { CiMenuKebab } from "react-icons/ci";
 import TotalphotoModal from '../TotalphotoModal';
+import { useNavigate } from 'react-router-dom';
 
 // 채린
 import AWS from 'aws-sdk';
@@ -22,6 +23,8 @@ const s3 = new AWS.S3(config);
 const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
   const [showIcon, setShowIcon] = useState('▶');
   const [show, setShow] = useState('none');
+
+  const navigate = useNavigate();
   
 
   // 채린
@@ -132,6 +135,10 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
     }
   }
 
+  const handleButtonClick = () => {
+    navigate('/favorPage');
+  };
+
   return (
     <div id='paSideConatiner'>
       <div id='sideBtnContainer'>
@@ -170,6 +177,7 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
             </div>
           </li>
         </ul>
+        <span className='sideBtn' onClick={handleButtonClick}>즐겨찾기</span>
         <span className='sideBtn'>
           <input type="file" multiple onChange={handleFileInput} accept='.jpg,.png' />
         </span>

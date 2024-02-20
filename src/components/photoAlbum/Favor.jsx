@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react'
+import { useState, useEffect } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Checkbox from '@mui/material/Checkbox';
@@ -11,13 +12,15 @@ import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-id
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import '../../css/PAMain.css';
 
-
-const PAMain1 = ({ uploadSuccess, fileNames }) => {
+const Favor = () => {
   const [imageUrls, setImageUrls] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const userNum = sessionStorage.getItem("user_num");
+
+
+
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
@@ -25,18 +28,18 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
 
   const fetchImages = async () => {
     try {
-      const response = await axiosInstance.post('/imageDownload', {
+      const response = await axiosInstance.post('/favorPageImgList', {
         user_num: userNum
       });
 
       const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
-      const photoFavor = response.data.map(item => item.photo_favor);
+
 
       if (s3UploadFileNameMap.length > 0) {
         const cleanedFileNames = s3UploadFileNameMap.map(name => name.replace(/"/g, ''));
+        // 업로드 후에 이미지 가져오기
         const updatedImageUrls = await getImageUrls(cleanedFileNames);
         setImageUrls(updatedImageUrls);
-        setFavorites(photoFavor);
       }
     } catch (error) {
       console.error('Failed to fetch images:', error);
@@ -81,9 +84,14 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
 
   useEffect(() => {
     fetchImages();
-  }, [uploadSuccess, fileNames]);
+
+
+  }, []);
 
   const toggleImageSelection = (fileName) => {
+
+    console.log('선택된 파일 이름 ; ', fileName);
+
     setSelectedImages((prevSelected) => {
       if (prevSelected.includes(fileName)) {
         return prevSelected.filter((selected) => selected !== fileName);
@@ -93,15 +101,19 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
     });
   };
 
+
+
   const toggleSelectAll = () => {
     setSelectAll((prevSelectAll) => !prevSelectAll);
     setSelectedImages((prevSelected) => {
       const selectedFileNames = selectAll ? [] : imageUrls.map((image) => image.fileName);
+      console.log('전체 선택된 파일 이름들:', selectedFileNames); // 콘솔에 배열 출력
       return selectedFileNames;
     });
   };
 
   const addToFavorites = (fileName) => {
+
     setFavorites((prevFavorites) => {
       if (prevFavorites.includes(fileName)) {
         console.log(`좋아요 버튼이 해제된 이미지의 파일 이름: ${fileName}`);
@@ -140,23 +152,14 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
             console.error(error);
           });
 
-      return [...prevFavorites, fileName];
-        }
+
+
+        return [...prevFavorites, fileName];
+      }
     });
   };
 
- const downloadSelectedImages = () => {
-    for (const fileName of selectedImages) {
-      const selectedImage = imageUrls.find((image) => image.fileName === fileName);
 
-      if (selectedImage) {
-        const link = document.createElement('a');
-        link.href = selectedImage.url;
-        link.download = fileName;
-        link.click();
-      }
-    }
-  };
 
   return (
     <div id='paMainContainer'>
@@ -164,8 +167,8 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
         전체선택<Checkbox
           checked={selectAll}
           onChange={toggleSelectAll}
+
         />
-        <button onClick={downloadSelectedImages}>선택된 이미지 다운로드</button>
       </div>
       <ImageList sx={{ width: 1500, height: 800 }} cols={7}>
         {imageUrls.map((image, index) => (
@@ -181,8 +184,9 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
                 onClick={() => addToFavorites(image.fileName)}
                 sx={{ color: 'white' }}
               >
-                {favorites.includes(image.fileName) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {favorites.includes(image.fileName)  ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
+
             </div>
             <img
               src={image.url}
@@ -190,13 +194,11 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
               loading="lazy"
               style={{ width: '100%', height: 'auto', maxHeight: '200px', objectFit: 'cover' }}
             />
-            <p>{image.fileName}</p>
           </ImageListItem>
         ))}
       </ImageList>
-      
     </div>
   );
 };
 
-export default PAMain1;
+export default Favor;

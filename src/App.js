@@ -7,7 +7,7 @@ import AccountPage from "./components/AccountPage";
 import { Route, Routes } from "react-router-dom";
 import AccountCheck from "./components/AccountCheck";
 import PayPage from "./components/PayPage";
-import axios from "axios";
+import FavorPage from "./components/FavorPage";
 
 import './App.css'
 function App() {
@@ -23,6 +23,7 @@ function App() {
       <Route path="/account" element={<AccountPage/>}></Route>
       <Route path="/accountCheck" element={<AccountCheck/>}></Route>
       <Route path="/Payment" element={<PayPage/>}></Route>
+      <Route path="/favorPage" element={<FavorPage/>}></Route>
     </Routes>
   );
 

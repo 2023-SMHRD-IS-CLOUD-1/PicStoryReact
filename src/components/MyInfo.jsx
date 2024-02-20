@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -311,6 +311,11 @@ const MyInfo = () => {
                     
                 ) : (
                     <button onClick={handleEditClick}>수정하기</button>
+                )}
+                {premium ? (
+                    <Link to="/Payment">프리미엄 구독</Link>
+                ) : (
+                    <button>구독취소</button>
                 )}
           </div>
 

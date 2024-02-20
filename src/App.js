@@ -6,6 +6,7 @@ import MyInfoPage from "./components/MyInfoPage";
 import AccountPage from "./components/AccountPage";
 import { Route, Routes } from "react-router-dom";
 import AccountCheck from "./components/AccountCheck";
+import PayPage from "./components/PayPage";
 import axios from "axios";
 
 import './App.css'
@@ -21,6 +22,7 @@ function App() {
       <Route path="/myinfo" element={<MyInfoPage/>}></Route>
       <Route path="/account" element={<AccountPage/>}></Route>
       <Route path="/accountCheck" element={<AccountCheck/>}></Route>
+      <Route path="/Payment" element={<PayPage/>}></Route>
     </Routes>
   );
 

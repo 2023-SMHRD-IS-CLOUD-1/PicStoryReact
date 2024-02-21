@@ -7,6 +7,7 @@ import PAMain from './photoAlbum/PAMain'
 import '../css/PhotoAlbum.css';
 import { UserLoginContext } from '../contexts/UserLogin'
 import { useNavigate } from 'react-router-dom'
+import { LoadPhotoContext } from '../contexts/LoadPhoto'
 
 
 const PhotoAlbum = () => {
@@ -40,16 +41,17 @@ const PhotoAlbum = () => {
 
   return (
     <>
-    <UserLoginContext.Provider value={{
-       login, setLogin, handlerLogout}}>
-      <div id='photoAlbum'>
-        <Header />
-        <PALeftSide setUploadSuccess={setUploadSuccess} setFileNames={setFileNames} />
-        <PAMenu />
-        <PAMain1 fileNames={fileNames} uploadSuccess={uploadSuccess} />
-        {/* <PAMain/> */}
-      </div>
-      </UserLoginContext.Provider>
+      {/* <LoadPhotoContext.Provider value={{selectedFolder}}> */}
+        <UserLoginContext.Provider value={{login, setLogin, handlerLogout}}>
+          <div id='photoAlbum'>
+            <Header />
+            <PALeftSide setUploadSuccess={setUploadSuccess} setFileNames={setFileNames} />
+            <PAMenu />
+            <PAMain1 fileNames={fileNames} uploadSuccess={uploadSuccess} />
+            {/* <PAMain/> */}
+          </div>
+        </UserLoginContext.Provider>
+      {/* </LoadPhotoContext.Provider> */}
     </>
   );
 };

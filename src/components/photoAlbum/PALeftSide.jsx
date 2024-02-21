@@ -1,139 +1,75 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import '../../css/PALeftSide.css'
 import { CiMenuKebab } from "react-icons/ci";
 import TotalphotoModal from '../TotalphotoModal';
 import { useNavigate } from 'react-router-dom';
-
 // 채린
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import CreateFolderModal from '../CreateFolderModal';
 /* eslint-disable no-unused-vars */
 
-
-
-const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
-  const [showIcon, setShowIcon] = useState('▶');
-  const [show, setShow] = useState('none');
-
-  const navigate = useNavigate();
-  
-
-  // 채린
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [uploadedFileUrls, setUploadedFileUrls] = useState([]);
-  const [uploadedFileSizes, setUploadedFileSizes] = useState([]);
-
-  
-const id_key = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
-const secret_key = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
-const region = process.env.REACT_APP_AWS_REGION
-const bucketName = 'codewi';
-
 const config = {
-  bucketName: bucketName,
-  region: region,
-  accessKeyId: id_key,
-  secretAccessKey: secret_key,
+  bucketName: 'codewi',
+  region: 'ap-northeast-2',
+  accessKeyId: 'AKIAZQ3DRESJCEVISYPZ',
+  secretAccessKey: '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',
 };
 
 const s3 = new AWS.S3(config);
 
 
+const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
+
+  const allPhoto = useRef(null);
+  const [selectedFolder, setSelectedFolder] = useState('전체사진');
+  const [allPhotoClicked, setAllPhotoClicked] = useState('allPhotoBtnOff');
+  const [favorPhotoClicked, setFavorPhotoClicked] = useState('favorPhotoBtnOff');
+  const [showIcon, setShowIcon] = useState('▶');
+  const [show, setShow] = useState('none');
+  const [modalOpen, setModalOpen] = useState(false);
+  const user_num = sessionStorage.getItem('user_num');
+  const [folderName, setFolderName] = useState([]);
+  const [folderNum, setFolderNum] = useState([]);
+
+  const fileInfo = {
+    user_num : user_num
+  }
 
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8099/picstory',
-  });
+    baseURL: 'http://localhost:8099/picstory'
+  })
+  useEffect(()=>{
+    axiosInstance.post('/folderListSelect', fileInfo)
+      .then((res)=>{
+        console.log('바로 실행 : ',res.data);
+        setFolderName(res.data.map((item) => item.folder_name)); 
+        setFolderNum(res.data.map((item)=> item.folder_num));
+      })
+      .catch(error =>{
+        console.log(error);
+      });
+    // 페이지 최초렌더시 전체사진 선택
+    setAllPhotoClicked('allPhotoBtnOn');
+    allPhoto.current.focus();
+  },[])
 
-  useEffect(() => {
-    const uploadFiles = async () => {
-      try {
-        if (selectedFiles.length === 0) {
-          console.log('파일을 선택하세요.');
-          return;
-        }
+  // 전체사진 폴더 선택
+  const allPhotoClick = () => {
+    setAllPhotoClicked('allPhotoBtnOn');
+    setFavorPhotoClicked('favorPhotoBtnOff');
+    setSelectedFolder('전체사진');
+  }
 
-        const uploadedFileData = await Promise.all(selectedFiles.map(async (file) => {
-          const fileName = `${uuidv4()}_${file.name}`;
-          const params = {
-            Bucket: config.bucketName,
-            Key: `folder/${fileName}`,
-            Body: file,
-          };
-
-          const data = await s3.upload(params).promise();
-          console.log('파일 업로드 성공:', data.Location);
-
-          return { fileName, fileUrl: data.Location };
-        }));
-
-        const fileNames = uploadedFileData.map((fileData) => fileData.fileName);
-        const fileURLs = uploadedFileData.map((fileData) => fileData.fileUrl);
-        const userPhotoName = selectedFiles.map((file) => file.name);
-        console.log('업로드된 파일 이름:', fileNames);
-        console.log('업로드된 파일 URL:', fileURLs);
-        console.log('업로드된 파일 user지정 이름:', userPhotoName);
-
-
-        if (fileURLs.length === 0) {
-          return;
-        }
-
-        const fileNamesString = JSON.stringify(fileNames);
-        const fileURLsString = JSON.stringify(fileURLs);
-        const fileSizeString = JSON.stringify(uploadedFileSizes);
-        const userPhotoNameString = JSON.stringify(userPhotoName);
-        const storageUserNum = sessionStorage.getItem("user_num");
-
-        console.log('uploadedFileSize', uploadedFileSizes);
-
-        const data = {
-          user_num: storageUserNum,
-          s3_photo_name: fileNamesString,
-          user_photo_name: userPhotoNameString,
-          photo_url: fileURLsString,
-          photo_size: fileSizeString,
-          length: fileNames.length
-        };
-
-        console.log("서버에 보내는 data: ", data);
-
-        try {
-          const response = await axiosInstance.post('/imageUpload', data);
-          console.log('서버 응답:', response.data);
-          setUploadSuccess(true);
-          setFileNames(fileNames); // PAMain1에서 이미지를 불러오도록 업데이트
-        } catch (error) {
-          console.error('서버 통신 에러:', error);
-        }
-
-        setUploadedFileUrls(fileURLs);
-        setSelectedFiles([]); // 업로드 후에 selectedFiles 초기화
-
-        console.log('모든 파일 업로드 성공');
-      } catch (error) {
-        console.error('파일 업로드 에러:', error);
-      }
-    };
-
-    uploadFiles();
-  }, [selectedFiles, setUploadSuccess, setFileNames]);
-
-  const handleFileInput = (e) => {
-    const files = e.target.files;
-
-    if (files && files.length > 0) {
-      const selectedFilesArray = Array.from(files);
-      setSelectedFiles(selectedFilesArray);
-      const sizes = selectedFilesArray.map((file) => (file.size / 1024).toFixed(2) + ' KB');
-      setUploadedFileSizes(sizes);
-
-      const uploadedFileUrlsArray = selectedFilesArray.map((file) => URL.createObjectURL(file));
-      setUploadedFileUrls(uploadedFileUrlsArray);
-    }
-  };
-  // 여기까지 채린
-
+  // 즐겨찾기 폴더 선택
+  const favorPhotoClick = () => {
+    setAllPhotoClicked('allPhotoBtnOff');
+    setFavorPhotoClicked('favorPhotoBtnOn');
+    setSelectedFolder('즐겨찾기');
+  }
+  
+  // 폴더버튼 눌렀을 때 하위폴더 드랍다운
   let folderListBtn = () => {
     if (showIcon == '▶') {
       setShowIcon('▼');
@@ -144,22 +80,31 @@ const s3 = new AWS.S3(config);
     }
   }
 
-  const handleButtonClick = () => {
-    navigate('/favorPage');
-  };
+  // 폴더 생성 버튼 클릭시 작동
+  const createFolder = () => {
+    if (modalOpen == false) {
+      setModalOpen(true); // 모달 창 열기
+    } else {
+      setModalOpen(false);
+    }
+  }
 
   return (
     <div id='paSideConatiner'>
       <div id='sideBtnContainer'>
-        <span className='sideBtn'>전체사진</span>
+        <span id={allPhotoClicked} className='sideBtn' ref={allPhoto} onClick={allPhotoClick}>전체사진</span>
         <div id='folderParentContainer'>
           <div id='folderParent' onClick={folderListBtn}>
             {showIcon} 폴더
           </div>
           <div id='folderParentOption'>
-            <CiMenuKebab />
+            <div id='makeFolderBtn' onClick={createFolder}>+</div>
           </div>
         </div>
+            <div>
+            {modalOpen && <CreateFolderModal setModalOpen={setModalOpen}/>}
+            </div>
+
         <ul id='folderList'>
           <li className='folders' style={{ display: show }}>
             <div className='folderContainer'>
@@ -167,28 +112,10 @@ const s3 = new AWS.S3(config);
               <div className='folderOption'><CiMenuKebab /></div>
             </div>
           </li>
-          <li className='folders' style={{ display: show }}>
-            <div className='folderContainer'>
-              <div className='folderName'>여행사진</div>
-              <div className='folderOption'><CiMenuKebab /></div>
-            </div>
-          </li>
-          <li className='folders' style={{ display: show }}>
-            <div className='folderContainer'>
-              <div className='folderName'>음식 사진</div>
-              <div className='folderOption'><CiMenuKebab /></div>
-            </div>
-          </li>
-          <li className='folders' style={{ display: show }}>
-            <div className='folderContainer'>
-              <div className='folderName'>셀카</div>
-              <div className='folderOption'><CiMenuKebab /></div>
-            </div>
-          </li>
         </ul>
-        <span className='sideBtn' onClick={handleButtonClick}>즐겨찾기</span>
+
+        <span id={favorPhotoClicked} className='sideBtn' onClick={favorPhotoClick}>즐겨찾기</span>
         <span className='sideBtn'>
-          <input type="file" multiple onChange={handleFileInput} accept='.jpg,.png' />
         </span>
       </div>
     </div>

@@ -4,6 +4,19 @@
   position: fixed;
   background-color: #9D9D9F;
 }
+#allPhotoBtnOff{
+  padding-left: 20px;
+  display: block;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: auto;
+  outline: none;
+}
+#allPhotoBtnOn{
+  background-color: gray;
+}
 .sideBtn{
   padding-left: 20px;
   display: block;
@@ -12,6 +25,20 @@
   margin-top: 20px;
   cursor: pointer;
   width: auto;
+  outline: none;
+}
+#favorPhotoBtnOff{
+  padding-left: 20px;
+  display: block;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: auto;
+  outline: none;
+}
+#favorPhotoBtnOn{
+  background-color: gray;
 }
 .sideBtn:hover{
   background-color: gray;
@@ -25,6 +52,9 @@
 }
 #folderParentContainer:hover{
   
+}
+#makeFolderBtn{
+  font-weight: normal;
 }
 #folderParent{
   width: 179px;

@@ -10,14 +10,6 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 /* eslint-disable no-unused-vars */
 
-const config = {
-  bucketName: 'codewi',
-  region: 'ap-northeast-2',
-  accessKeyId: 'AKIAZQ3DRESJCEVISYPZ',
-  secretAccessKey: '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',
-};
-
-const s3 = new AWS.S3(config);
 
 
 const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
@@ -31,6 +23,23 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadedFileUrls, setUploadedFileUrls] = useState([]);
   const [uploadedFileSizes, setUploadedFileSizes] = useState([]);
+
+  
+const id_key = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
+const secret_key = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+const region = process.env.REACT_APP_AWS_REGION
+const bucketName = 'codewi';
+
+const config = {
+  bucketName: bucketName,
+  region: region,
+  accessKeyId: id_key,
+  secretAccessKey: secret_key,
+};
+
+const s3 = new AWS.S3(config);
+
+
 
   const axiosInstance = axios.create({
     baseURL: 'http://localhost:8099/picstory',

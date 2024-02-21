@@ -19,6 +19,10 @@ const Favor = () => {
   const [selectAll, setSelectAll] = useState(false);
   const userNum = sessionStorage.getItem("user_num");
 
+  let region = process.env.REACT_APP_AWS_REGION
+  let identityPoolId = process.env.REACT_APP_AWS_IdentityPoolId;
+
+
 
 
 
@@ -47,8 +51,8 @@ const Favor = () => {
   };
 
   const getImageUrls = async (fileNames) => {
-    const region = 'ap-northeast-2';
-    const identityPoolId = 'ap-northeast-2:e21aa3d2-625a-44e6-8c6d-a4c49d988732';
+    region = region;
+    identityPoolId = identityPoolId;
     const s3BucketName = 'codewi';
     const updatedImageUrls = [];
 
@@ -184,7 +188,7 @@ const Favor = () => {
                 onClick={() => addToFavorites(image.fileName)}
                 sx={{ color: 'white' }}
               >
-                {favorites.includes(image.fileName)  ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {favorites.includes(image.fileName) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
 
             </div>

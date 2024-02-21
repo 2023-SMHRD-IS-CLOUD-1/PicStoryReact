@@ -19,6 +19,10 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
   const [selectAll, setSelectAll] = useState(false);
   const userNum = sessionStorage.getItem("user_num");
 
+  const region = process.env.REACT_APP_AWS_REGION
+  const identityPoolId = process.env.REACT_APP_AWS_IdentityPoolId;
+ 
+
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
   });
@@ -44,8 +48,6 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
   };
 
   const getImageUrls = async (fileNames) => {
-    const region = 'ap-northeast-2';
-    const identityPoolId = 'ap-northeast-2:e21aa3d2-625a-44e6-8c6d-a4c49d988732';
     const s3BucketName = 'codewi';
     const updatedImageUrls = [];
 

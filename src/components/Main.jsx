@@ -32,7 +32,7 @@ const Main = () => {
             <br />
             태그를 기반으로 나만의 폴더를 만들 수 있습니다.
           </p>
-          <Link id='goPhotoAlbumBtn' onClick={goPhotoAlbum}><span>PicStory▶</span></Link>
+          <Link to='/photoAlbum' id='goPhotoAlbumBtn' onClick={goPhotoAlbum}><span>PicStory▶</span></Link>
         </div>
         <div id='mainImgContainer'>
           <img src="/images/mainimg.png" alt="홈메인이미지" id='mainImg'/>

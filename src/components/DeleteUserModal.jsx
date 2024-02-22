@@ -43,9 +43,9 @@ const DeleteUserModal = ({setModalOpen, pw}) => {
         if (inputPw === pw) {
             console.log('탈퇴하기 버튼 클릭');
             // 비밀번호가 맞을 때만 탈퇴 처리
-            const userId = sessionStorage.getItem("user_id");
+            const userNum = sessionStorage.getItem("user_num");
             axiosInstance.post("/deleteUser", {
-                user_id: userId,
+                user_num: userNum,
             }).then(res => {
                 console.log("탈퇴 완료")
                 // 세션 값 삭제

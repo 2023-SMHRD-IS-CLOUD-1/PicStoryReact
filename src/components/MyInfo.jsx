@@ -6,9 +6,11 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import '../css/MyInfo.css'
+import DeleteUserModal from './DeleteUserModal';
 
 const MyInfo = () => {
 
+    const [userNum, setUserNum] = useState('');
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const [pwConfirm, setPwConfirm] = useState("");
@@ -16,12 +18,22 @@ const MyInfo = () => {
     const [nick, setNick] = useState('');
     const [mail, setMail] = useState('');
     const [premium , setPremium] = useState('');
+    const [count, setCount] = useState('0');
     const [pwMessage, setPwMessage] = useState(false);
     const [nickMessage, setNickMessage] = useState();
     const [mailMessage, setMailMessage] = useState();
     
     const [isEditMode, setIsEditMode] = useState(false);
     const [editPw, setEditPw] = useState('');
+
+    const [nickChecked, setNickChecked] = useState(false);
+    const [mailChecked, setMailChecked] = useState(false);
+
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const showModal = () => {
+        setModalOpen(true);
+    }
 
     const nav = useNavigate();
 
@@ -42,12 +54,15 @@ const MyInfo = () => {
             user_num: userNum,
         }).then(res => {
             console.log(res)
-            setId(res.data.user_id);
-            setPw(res.data.user_pw);
-            setName(res.data.user_name);
-            setNick(res.data.user_nick);
-            setMail(res.data.user_mail);
-            setPremium(res.data.user_premium);
+            if (res.data.myinfo) {
+                setId(res.data.myinfo.user_id);
+                setPw(res.data.myinfo.user_pw);
+                setName(res.data.myinfo.user_name);
+                setNick(res.data.myinfo.user_nick);
+                setMail(res.data.myinfo.user_mail);
+                setPremium(res.data.myinfo.user_premium);
+                setCount(res.data.countPhoto);
+            }
         }).catch(error => {
             console.error("에러:", error.message);
         });
@@ -116,6 +131,7 @@ const MyInfo = () => {
                 //console.log(res.data);
                 if (res.data) {
                     setNickMessage(true);
+                    setNickChecked(true);
                 } else {
                     setNickMessage(false);
                 }
@@ -137,6 +153,7 @@ const MyInfo = () => {
                 //console.log(res.data);
                 if (res.data) {
                     setMailMessage(true);
+                    setMailChecked(true);
                 } else {
                     setMailMessage(false);
                 }
@@ -148,13 +165,13 @@ const MyInfo = () => {
     }
 
     // 비밀번호 확인 input태그에서 커서가 사라질때 실행되는 이벤트
-    const handleBlur = () => {
-        if (editPw === pwConfirm) {
-            setPwMessage("비밀번호가 일치합니다.")
-        } else {
-            setPwMessage("비밀번호가 일치하지않습니다.")
-        }
-    };
+    // const handleBlur = () => {
+    //     if (editPw === pwConfirm) {
+    //         setPwMessage("비밀번호가 일치합니다.")
+    //     } else {
+    //         setPwMessage("비밀번호가 일치하지않습니다.")
+    //     }
+    // };
 
 
   return (
@@ -171,7 +188,7 @@ const MyInfo = () => {
                   <div className='item-title'>이용</div>
               </div>
               <div className='s-item'>
-                  <div className='item-content'>5135</div>
+                  <div className='item-content'>{count}</div>
                   <div className='item-title'>사진수</div>
               </div>
           </div>
@@ -189,18 +206,7 @@ const MyInfo = () => {
               <div className='l-item'>
                   <div className='info-list'>이름</div>
                   <div className='info-list-content'>
-                      {isEditMode ? (
-                          <TextField
-                          type="text"
-                          className="outlined-basic"
-                          label="이름 입력"
-                          variant="outlined"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                        />
-                      ) : (
-                          name
-                      )}
+                      {name}
                   </div>
               </div>
               <div className='l-item'>
@@ -233,8 +239,14 @@ const MyInfo = () => {
                               label="비밀번호 재입력"
                               variant="outlined"
                               value={pwConfirm}
-                              onChange={(e) => setPwConfirm(e.target.value)}
-                              onBlur={handleBlur}
+                              onChange={(e) => {
+                                setPwConfirm(e.target.value);
+                                if (editPw === e.target.value) {
+                                    setPwMessage("비밀번호가 일치합니다.");
+                                } else {
+                                    setPwMessage("비밀번호가 일치하지 않습니다.");
+                                }
+                            }}
                               FormHelperTextProps={{
                                   style: { fontSize: '0.8rem', margin: '2px 2px 5px 2px', color:'red' }
                               }}
@@ -256,7 +268,10 @@ const MyInfo = () => {
                               label="닉네임"
                               variant="outlined"
                               value={nick}
-                              onChange={(e) => setNick(e.target.value)}
+                              onChange={(e) => {
+                                setNick(e.target.value);
+                                setNickChecked(false); // 닉네임이 변경될 때마다 중복 확인 상태 초기화
+                                }}
                               InputProps={{
                                   endAdornment: (
                                       <InputAdornment position="end">
@@ -286,7 +301,10 @@ const MyInfo = () => {
                               label="이메일"
                               variant="outlined"
                               value={mail}
-                              onChange={(e) => setMail(e.target.value)}
+                              onChange={(e) => {
+                                setMail(e.target.value);
+                                setMailChecked(false); // 이메일이 변경될 때마다 중복 확인 상태 초기화
+                                }}
                               InputProps={{
                                   endAdornment: (
                                       <InputAdornment position="end">
@@ -307,16 +325,22 @@ const MyInfo = () => {
               </div>
               </Box>
               {isEditMode ? (
-                    <button onClick={handleSaveClick} disabled={editPw !== pwConfirm}>저장하기</button>
+                    <button onClick={handleSaveClick}
+                            className='buttonBlue' 
+                            disabled={!editPw || !pwConfirm || editPw !== pwConfirm || !nick || !nickChecked || !mail || !mailChecked}>
+                        저장하기
+                    </button>
                     
                 ) : (
-                    <button onClick={handleEditClick}>수정하기</button>
+                    <button onClick={handleEditClick} className='buttonBlue'>수정하기</button>
                 )}
                 {premium ? (
                     <Link to="/Payment">프리미엄 구독</Link>
                 ) : (
                     <button>구독취소</button>
                 )}
+                <button className='buttonWhite'onClick={showModal}>회원탈퇴</button>
+                {modalOpen && <DeleteUserModal setModalOpen={setModalOpen} pw={pw}/>}
           </div>
 
           <div className='info-box-l'>

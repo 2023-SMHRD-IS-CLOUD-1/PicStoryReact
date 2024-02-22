@@ -82,8 +82,9 @@
     font-size: 16px;
     width: 13%;
 }
-.info-box-l button{
+.info-box-l .buttonBlue{
     margin-top: 15px;
+    margin-right: 5px;
     padding: 7px 13px;
     font-size: 15px;
     font-weight: bold;
@@ -93,6 +94,23 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+.info-box-l .buttonWhite{
+    margin-top: 15px;
+    margin-right: 5px;
+    padding: 7px 13px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    color: #377be0;
+    background-color: #fff;
+    border: 1px solid #377be0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.info-box-l button:disabled{
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 .info-box-l .info-list-content{
     font-size: 20px;

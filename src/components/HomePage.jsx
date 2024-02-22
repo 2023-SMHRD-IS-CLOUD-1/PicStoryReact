@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 const HomePage = () => {
 
   const [login, setLogin] = useState("");
+  console.log('sessionStorage',sessionStorage.getItem("user_id"));
   console.log('sessionStorage',sessionStorage.getItem("user_num"));
 
   useEffect(() => {

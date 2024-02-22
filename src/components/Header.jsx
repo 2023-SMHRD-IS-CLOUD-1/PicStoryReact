@@ -28,6 +28,7 @@ const Header = () => {
 
   const deleteSession = (user_id) =>{
     sessionStorage.removeItem('user_num');
+    sessionStorage.removeItem('user_id');
     setLoginState(false);
   }
 

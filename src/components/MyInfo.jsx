@@ -19,6 +19,7 @@ const MyInfo = () => {
     const [pwMessage, setPwMessage] = useState(false);
     const [nickMessage, setNickMessage] = useState();
     const [mailMessage, setMailMessage] = useState();
+    const [userNum, setUserNum] = useState();
     
     const [isEditMode, setIsEditMode] = useState(false);
     const [editPw, setEditPw] = useState('');
@@ -32,17 +33,19 @@ const MyInfo = () => {
     useEffect(() => {
 
         // 세션 값 꺼내서 쓰기
-        const userId = sessionStorage.getItem("user_id");
-        console.log("마이페이지", userId)
-        if (!userId) {
+     const sessionUserNum = sessionStorage.getItem("user_num")
+        console.log("마이페이지", userNum)
+        if (!userNum) {
             nav('/login');
             return;
         }
-        setId(userId);
+        setUserNum(sessionUserNum);
+
         axiosInstance.post("/myinfo", {
-            user_id: id,
+            user_num: userNum,
         }).then(res => {
             console.log(res)
+            setId(res.data.user_id);
             setPw(res.data.user_pw);
             setName(res.data.user_name);
             setNick(res.data.user_nick);
@@ -51,7 +54,7 @@ const MyInfo = () => {
         }).catch(error => {
             console.error("에러:", error.message);
         });
-    }, [id]);
+    }, [userNum]);
 
     const handleEditClick = () => {
         setIsEditMode(true); // 수정 모드로 전환

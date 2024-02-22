@@ -5,16 +5,25 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import { BrowserRouter as Router, Route, Switch, Link,useNavigate } from 'react-router-dom';
 
 const Payment = (effect, deps) => {
-
-    const [Tags, setTags] = useState(["건물", "의류", "차량", "스포츠", "음식", "식물"]);
-    const [newTag, setNewTag] = useState('');
+    const nav = useNavigate();
+    const [id, setId] = useState('');
+    const [name, setName] = useState('');
+    const [mail, setMail] = useState('');
+    const [premium , setPremium] = useState('');
 
     useEffect(() => {
+        // setId(sessionStorage.getItem("user_id"));
+        // setName(sessionStorage.getItem("user_name"));
+        // setMail(sessionStorage.getItem("user_mail"));
+        // setPremium(sessionStorage.getItem("user_premium"));
+
+        console.log('결제페이지',id,name,mail,'!!!');
         const jquery = document.createElement("script");
         jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
         const iamport = document.createElement("script");
@@ -36,10 +45,13 @@ const Payment = (effect, deps) => {
             merchant_uid: `mid_${new Date().getTime()}`, // 결제금액 (필수항목)
             name: '결제 테스트', // 주문명 (필수항목)
             amount: '100', // 금액 (필수항목)
-            custom_data: { name: '부가정보', desc: '세부 부가정보' },
+            //custom_data: { userId: {id}, desc: '세부 부가정보' },
+            custom_data: { userId: '부가정보', desc: '세부 부가정보' },
+            //buyer_name: {name}, // 구매자 이름
             buyer_name: 'goldy', // 구매자 이름
             buyer_tel: '0101234556', // 구매자 전화번호 (필수항목)
-            buyer_email: 'goldy', // 구매자 이메일
+            //buyer_email: {mail}, // 구매자 이메일
+            buyer_email: 'mail', // 구매자 이메일
             buyer_addr: 'gwangju',
             buyer_postalcode: '1234'
         };
@@ -50,43 +62,72 @@ const Payment = (effect, deps) => {
         const { success, error_msg, imp_uid, merchant_uid, pay_method, paid_amount, status } = response;
         if (success) {
             alert('결제 성공');
+            nav('/myinfo');
         } else {
             alert(`결제 실패 : ${error_msg}`);
         }
     }
 
-
-
-    const handleTagChange = (e) => {
-        setNewTag(e.target.value);
-    }
-
-    const addTag = () => {
-        setTags([...Tags, newTag]);
-        setNewTag('');
-    }
-
     return (
         <div className='payMain'>
-            <Stack
-                direction="row"
-                divider={<Divider orientation="vertical" flexItem />}
-                spacing={2}
-            >
-                {Tags.map((tag, index) => (
-                    <Button key={index} variant="outlined" >{tag}</Button>
-                ))}
+            <div className='payBox'>
+                <div className='top'>
+                    <div>
+                        <p className='text1'>기본 사용자는</p>
+                        <p className='text2'>Starter</p>
+                    </div>
+                    <div>
+                        <LocalOfferIcon style={{ fontSize: 80, color: 'blue' }} />
+                    </div>
 
-            </Stack>
-            <TextField id="filled-basic" label="Tag" variant="filled" onChange={handleTagChange} />
-            <Button variant="contained" onClick={addTag}>추가</Button>
+                </div>
+                <h2>free</h2>
+                <hr align="center" color='#CCCCCC' width="100%" />
+                <div className='contents'>
+                    <div className='content'>
+                        <DoneRoundedIcon style={{ color: 'gray' }} />
+                        <p>사진 1000장까지 업로드 가능</p></div>
+                    <div className='content'>
+                        <DoneRoundedIcon style={{ color: 'gray' }} />
+                        <p>기본 태그 10개 제공</p></div>
+                    <div className='content'>
+                        <DoneRoundedIcon style={{ color: 'gray' }} />
+                        <p>유사이미지 검색 기능</p></div>
+                </div>
+                <div className='btn'>
+                    <Button className='payBtn' variant="outlined" >FREE</Button>
+                </div>
+            </div>
 
             <div className='payBox'>
-                <button id='l-loginBtn' className='payBtn' onClick={onClickPayment} style={{ cursor: 'pointer' }}>결제하기</button>
+                <div className='top'>
+                    <div>
+                        <p className='text1'>프리미엄 사용자는</p>
+                        <p className='text2'>Premium</p>
+                    </div>
+                    <div>
+                        <LoyaltyIcon style={{ fontSize: 80, color: 'hotpink' }} />
+                    </div>
+                </div>
 
-
+                <h2>10,000원</h2>
+                <hr align="center" color='#CCCCCC' width="100%" />
+                <div className='contents'>
+                    <div className='content'>
+                        <DoneRoundedIcon style={{ color: 'gray' }} />
+                        <p>Free 버전의 모든 기능들</p> </div>
+                    <div className='content'>
+                        <DoneRoundedIcon style={{ color: 'gray' }} />
+                        <p>사진 무제한으로 업로드 가능</p> </div>
+                    <div className='content'>
+                        <DoneRoundedIcon style={{ color: 'gray' }} />
+                        <p>커스텀 태그 제공</p> </div>
+                </div>
+                <div className='btn'>
+                    <Button className='payBtn' color="secondary" onClick={onClickPayment} variant="outlined">Premium</Button>
+                </div>
             </div>
-        </div>
+        </div >
     );
 }
 

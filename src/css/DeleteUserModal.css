@@ -1,0 +1,87 @@
+.d-modalContainer {
+    padding: 10px;
+    margin-top: 3px;
+    width: 500px;
+    z-index: 999;
+    position: absolute;
+
+    /* 모달창 디자인 */
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 투명 검은색 배경 */
+    z-index: 998; /* 모달 창 보다 앞에 표시되도록 설정 */
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: none;
+    background-color: white;
+    font-size: 20px;
+}
+
+.d-modalContainer form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.d-modalContainer h3{
+    position: relative;
+    font-size: 22px;
+    margin-top: 28px;
+}
+
+.inputPW{
+    position: relative;
+    width: 270px;
+    height: 25px;
+    border-radius: 10px;
+    border: 1px solid rgb(201, 201, 201);
+    padding: 10px;
+    font-size: 20px;
+}
+
+.delBtn{
+    position: relative;
+    width: 100px;
+    height: 35px;
+    color: white;
+    background-color: #377be0;
+    margin-top: 3px;
+    margin-bottom: 27px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+
+    &:disabled{
+        background-color: white;
+        color: #377be0;
+        border: 1px solid #377be0;
+    }
+}
+.pwMessage {
+    font-size: 15px;
+    margin-top: 5px;
+}
+.success {
+    color: #377be0;
+}
+
+.error {
+    color: rgb(223, 28, 28);
+}

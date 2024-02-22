@@ -3,9 +3,9 @@ import { Paper, MobileStepper, Button } from '@mui/material';
 import '../css/ImgSlider.css';
 
 const images = [
-  '/images/imageslider1.jpg',
-  'https://t1.daumcdn.net/cfile/tistory/99F8A43D5A82811613',
-  'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202106/13/hani21/20210613111821227vtsy.jpg',
+  '/images/slide01.png',
+  '/images/slide02.png',
+  '/images/slide03.png',
   // Add more image URLs as needed
 ];
 
@@ -33,7 +33,7 @@ const ImageSlider = () => {
     <div>
       <div className='imgSliderContainer'>
         <span>
-          <Paper style={{ overflow: 'hidden' }}>
+          <Paper style={{ overflow: 'hidden', boxShadow: 'none'  }}>
             <img src={images[activeStep]} alt={`Slide ${activeStep + 1}`} style={{ width: '100%' }} className='imgSlider' />
           </Paper>
         </span>

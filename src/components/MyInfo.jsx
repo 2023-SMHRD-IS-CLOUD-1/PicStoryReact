@@ -38,11 +38,11 @@ const MyInfo = () => {
             nav('/login');
             return;
         }
-        setId(userNum);
         axiosInstance.post("/myinfo", {
             user_num: userNum,
         }).then(res => {
             console.log(res)
+            setId(res.data.user_id);
             setPw(res.data.user_pw);
             setName(res.data.user_name);
             setNick(res.data.user_nick);

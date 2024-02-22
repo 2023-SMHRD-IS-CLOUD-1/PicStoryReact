@@ -9,6 +9,41 @@
     margin-bottom: 10px;
     padding: 10px;
 }
+.blueContainer{
+    height: 270px;
+    background-color: #377be0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.blueContainer .p-name{
+    margin: 5px 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+}
+.blueContainer .p-id{
+    margin: 5px 0;
+    font-size: 15px;
+    font-weight: 520;
+    color: #ccc;
+}
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+    margin-bottom: 9px;
+}
+.profile-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
 .info-box-s{
     background-color: white;
     display: flex;

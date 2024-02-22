@@ -6,8 +6,14 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 
 const Payment = (effect, deps) => {
+
+    const [Tags, setTags] = useState(["건물", "의류", "차량", "스포츠", "음식", "식물"]);
+    const [newTag, setNewTag] = useState('');
+
     useEffect(() => {
         const jquery = document.createElement("script");
         jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
@@ -49,8 +55,32 @@ const Payment = (effect, deps) => {
         }
     }
 
+
+
+    const handleTagChange = (e) => {
+        setNewTag(e.target.value);
+    }
+
+    const addTag = () => {
+        setTags([...Tags, newTag]);
+        setNewTag('');
+    }
+
     return (
         <div className='payMain'>
+            <Stack
+                direction="row"
+                divider={<Divider orientation="vertical" flexItem />}
+                spacing={2}
+            >
+                {Tags.map((tag, index) => (
+                    <Button key={index} variant="outlined" >{tag}</Button>
+                ))}
+
+            </Stack>
+            <TextField id="filled-basic" label="Tag" variant="filled" onChange={handleTagChange} />
+            <Button variant="contained" onClick={addTag}>추가</Button>
+
             <div className='payBox'>
                 <button id='l-loginBtn' className='payBtn' onClick={onClickPayment} style={{ cursor: 'pointer' }}>결제하기</button>
 

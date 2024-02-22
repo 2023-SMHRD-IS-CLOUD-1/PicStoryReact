@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../css/Login.css';
 import axios from 'axios';
@@ -53,9 +53,6 @@ const Login = () => {
     }
   }, []);
 
-
-
-
   function login() {
 
     if (id != '' && pw != '') {
@@ -85,7 +82,7 @@ const Login = () => {
     }
   }
 
- 
+
   return (
     <UserContext.Provider value={{ id, setId, pw, setPw }}>
       <div className='loginMain'>
@@ -126,7 +123,7 @@ const Login = () => {
           <p>PicStory가 처음이세요?</p>
           <Link to="/join">회원가입</Link>
         </div>
-
+        
         <div className="connect">
           <div id="naverIdLogin" />
           <div id='naverLogin'>네이버 로그인</div>

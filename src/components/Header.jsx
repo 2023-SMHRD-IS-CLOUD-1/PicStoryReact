@@ -26,7 +26,7 @@ const Header = () => {
   },[sessionUserInfo])
 
 
-  const deleteSession = (user_num) =>{
+  const deleteSession = (user_id) =>{
     sessionStorage.removeItem('user_num');
     setLoginState(false);
   }

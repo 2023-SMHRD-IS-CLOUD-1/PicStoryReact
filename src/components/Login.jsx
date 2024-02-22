@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../css/Login.css';
 import axios from 'axios';
@@ -16,6 +16,45 @@ const Login = () => {
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
   })
+
+  useEffect(() => {
+    let naverLogin = new window.naver.LoginWithNaverId({
+      clientId: `${process.env.REACT_APP_NAVER_CLIENT_ID}`,
+      callbackUrl: `http://localhost:3000/login`,
+      loginButton: { color: "green", type: 1, height: "50" },
+    });
+
+    naverLogin.init();
+    naverLogin.logout();
+
+    try {
+      naverLogin.getLoginStatus((status) => {
+        if (status) {
+          console.log(naverLogin.user);
+          const naverData = {
+           
+            user_naver_id : naverLogin.user.id
+          }
+
+          axiosInstance.post("/naverJoin", naverData)
+          .then(res =>{
+            console.log(res.data)
+            sessionStorage.setItem("user_num",res.data )
+            
+            nav('/');
+
+          })
+          .catch(err => {console.log(err);})
+          
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+
+
 
   function login() {
 
@@ -86,6 +125,11 @@ const Login = () => {
         <div className='a-container'>
           <p>PicStory가 처음이세요?</p>
           <Link to="/join">회원가입</Link>
+        </div>
+
+        <div className="connect">
+          <div id="naverIdLogin" />
+          <div id='naverLogin'>네이버 로그인</div>
         </div>
       </div>
     </UserContext.Provider>

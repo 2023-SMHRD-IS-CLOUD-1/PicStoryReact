@@ -18,7 +18,7 @@ const Header = () => {
 
   const [loginState, setLoginState] = useState(false);
 
-  const sessionUserInfo = sessionStorage.getItem('user_id');
+  const sessionUserInfo = sessionStorage.getItem('user_num');
   useEffect(()=>{
     if(sessionUserInfo != null) {
       setLoginState(true);
@@ -26,8 +26,8 @@ const Header = () => {
   },[sessionUserInfo])
 
 
-  const deleteSession = (user_id) =>{
-    sessionStorage.removeItem('user_id');
+  const deleteSession = (user_num) =>{
+    sessionStorage.removeItem('user_num');
     setLoginState(false);
   }
 

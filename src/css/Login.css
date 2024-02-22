@@ -69,3 +69,17 @@
   font-size: 18px;
 }
 
+.connect {
+  display: flex;
+  flex-direction: column; /* 자식 요소들을 수직으로 정렬하기 위해 column으로 설정 */
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  position: relative; 
+}
+
+#naverLogin {
+  font-family: NotoSansKRLight;
+  font-weight: bolder;
+  margin-top: 10px;
+}

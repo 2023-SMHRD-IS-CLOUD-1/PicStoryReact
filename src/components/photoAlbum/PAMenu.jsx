@@ -33,6 +33,7 @@ const PAMenu = () => {
       <div id='paMenuOption'>
         <div id='photoSelectAll'>
           전체선택<input type="checkbox" />
+          <input type="file" />
         </div>
         <div id='photoControl'>
           <div className='photoControlBtn'>내려받기</div>

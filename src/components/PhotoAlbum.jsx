@@ -15,7 +15,6 @@ const PhotoAlbum = () => {
   const [fileNames, setFileNames] = useState([]);
 
   const [login, setLogin] = useState("");
-  console.log('sessionStorage',sessionStorage.getItem("user_num"));
 
   useEffect(() => {
     const userNum = sessionStorage.getItem("user_num");

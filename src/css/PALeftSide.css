@@ -83,10 +83,12 @@
 }
 .folderContainer{
   display: flex;
-  margin-top: 5px;
+  margin-top: 10px;
+  align-items: center;
 }
 .folderName{
   display: block;
+  max-width: 200px;
   width: 200px;
   cursor: pointer;
 }
@@ -98,7 +100,8 @@
   display: block;
   width: 40px;
   cursor: pointer;
-  padding-left: 10px;
+  padding-left: 5px;
+
 }
 .folderOption:hover{
   color: blue;

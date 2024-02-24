@@ -13,32 +13,34 @@ import '../../css/PAMain.css';
 
 
 const PAMain1 = ({ uploadSuccess, fileNames }) => {
-  const [imageUrls, setImageUrls] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+  const [imageUrls, setImageUrls] = useState([]); // 사진list url 배열
+  const [selectedImages, setSelectedImages] = useState([]); // 내가 선택한 이미지 배열
+  const [favorites, setFavorites] = useState([]); // 좋아요 클릭한 이미지 배열
+  const [selectAll, setSelectAll] = useState(false); // 전체선택 여부
   const userNum = sessionStorage.getItem("user_num");
 
   const region = process.env.REACT_APP_AWS_REGION
   const identityPoolId = process.env.REACT_APP_AWS_IdentityPoolId;
- 
+
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
   });
 
+  // 화면에 띄울 사진 정보 S3에 접근해서 가져오기
   const fetchImages = async () => {
+    // DB에 저장된 사진정보 가져오기
     try {
       const response = await axiosInstance.post('/imageDownload', {
         user_num: userNum
       });
+      const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name); // S3에서 쓸 원파일명을 변수에 담기
+      const photoFavor = response.data.map(item => item.photo_favor); // 디비에서 뽑아온 사진 정보중 좋아요 여부 변수에 담기.
 
-      const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
-      const photoFavor = response.data.map(item => item.photo_favor);
-
+      // 가져온 사진이 존재하면
       if (s3UploadFileNameMap.length > 0) {
-        const cleanedFileNames = s3UploadFileNameMap.map(name => name.replace(/"/g, ''));
-        const updatedImageUrls = await getImageUrls(cleanedFileNames);
+        const cleanedFileNames = s3UploadFileNameMap.map(name => name.replace(/"/g, '')); // DB파일명 잘라서 저장 (수정 해야함)
+        const updatedImageUrls = await getImageUrls(cleanedFileNames); // 
         setImageUrls(updatedImageUrls);
         setFavorites(photoFavor);
       }
@@ -47,6 +49,8 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
     }
   };
 
+
+  // DB에서 뽑아낸 데이터로 S3 접근해서 사진 불러오기
   const getImageUrls = async (fileNames) => {
     const s3BucketName = 'codewi';
     const updatedImageUrls = [];
@@ -68,12 +72,18 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
       });
 
       try {
-        const response = await s3Client.send(getObjectCommand);
+        console.log('2222222222222');
+        const response = await s3Client.send();
+        console.log('33333333333');
         const imageData = await response.Body.getReader().read();
+        console.log('44444444444');
         const s3url = URL.createObjectURL(new Blob([imageData.value], { type: response.ContentType }));
 
+        console.log('555555555555');
         updatedImageUrls.push({ url: s3url, fileName });
+        console.log('5666666666666666');
       } catch (error) {
+        console.log('응 안돼');
         console.error('Error fetching S3 image:', error);
       }
     }
@@ -81,9 +91,16 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
     return updatedImageUrls;
   };
 
+
+
+
+  // 
   useEffect(() => {
     fetchImages();
   }, [uploadSuccess, fileNames]);
+
+
+
 
   const toggleImageSelection = (fileName) => {
     setSelectedImages((prevSelected) => {
@@ -95,6 +112,8 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
     });
   };
 
+
+
   const toggleSelectAll = () => {
     setSelectAll((prevSelectAll) => !prevSelectAll);
     setSelectedImages((prevSelected) => {
@@ -102,6 +121,9 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
       return selectedFileNames;
     });
   };
+
+
+
 
   const addToFavorites = (fileName) => {
     setFavorites((prevFavorites) => {
@@ -142,12 +164,13 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
             console.error(error);
           });
 
-      return [...prevFavorites, fileName];
-        }
+        return [...prevFavorites, fileName];
+      }
     });
   };
 
- const downloadSelectedImages = () => {
+  // 다운로드 버튼 눌렀을 때 선택된 이미지들 다운로드
+  const downloadSelectedImages = () => {
     for (const fileName of selectedImages) {
       const selectedImage = imageUrls.find((image) => image.fileName === fileName);
 
@@ -196,7 +219,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
           </ImageListItem>
         ))}
       </ImageList>
-      
+
     </div>
   );
 };

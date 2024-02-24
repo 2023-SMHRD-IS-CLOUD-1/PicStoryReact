@@ -1,16 +1,18 @@
-#paMenuContainer{
+#paMenuContainer {
   width: 88%;
   height: 10vh;
   margin-left: 12%;
   position: relative;
   display: flex;
 }
-#paMenuOption{
+
+#paMenuOption {
   display: flex;
   margin-top: 7px;
   margin-left: 5px;
 }
-#searchContainer{
+
+#searchContainer {
   display: flex;
   width: 400px;
   height: 40px;
@@ -18,13 +20,16 @@
   margin-top: 10px;
   margin-right: 0px;
 }
-#photoSelectAll{
+
+#photoSelectAll {
   font-size: 17px;
 }
-#photoControl{
+
+#photoControl {
   display: flex;
 }
-.photoControlBtn{
+
+.photoControlBtn {
   margin-left: 10px;
   font-size: 17px;
   cursor: pointer;
@@ -34,50 +39,74 @@
   padding-right: 3px;
   border-radius: 3px;
 }
-#photoSearchText{
+
+#photoSearchText {
   width: 300px;
   height: 20px;
 }
-#photoSearchBtn{
+
+#photoSearchBtn {
   border: 1px solid black;
   margin-left: 5px;
   margin-top: 1PX;
   height: 23px;
   cursor: pointer;
 }
-#tagChooseContainer{
+
+#tagChooseContainer {
   position: absolute;
   margin-top: 65px;
   margin-left: 5px;
 }
-#tagChooseBtn{
+
+#tagChooseBtn {
   font-size: 17px;
   cursor: pointer;
   border: 1px solid black;
   border-radius: 3px;
   padding: 0 3px;
 }
-#selectedTagContainer{
+
+#selectedTagContainer {
   position: absolute;
   display: flex;
   margin-top: 66px;
   margin-left: 90px;
   font-size: 17px;
 }
-.selectedTags{
+
+.selectedTags {
   margin-left: 20px;
   font-size: 14px;
 }
-.tagContainer{
+
+.tagContainer {
   display: flex;
 }
-.tagDelete{
+
+.tagDelete {
   margin-top: 2px;
   color: gray;
   cursor: pointer;
 }
-.tagDelete:hover{
+
+.tagDelete:hover {
   color: black;
   font-size: 17px;
   font-weight: bold;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  border-radius: 7px;
+}
+.custom-file-upload:hover{
+  background-color: lightblue;
+}
+.custom-file-upload input {
+  display: none;
 }

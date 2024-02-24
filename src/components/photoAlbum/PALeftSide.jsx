@@ -29,14 +29,16 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
   const [favorPhotoClicked, setFavorPhotoClicked] = useState('favorPhotoBtnOff');
   const [modalOpen, setModalOpen] = useState(false);
   const user_num = sessionStorage.getItem('user_num');
-  const [folderName, setFolderName] = useState();
-  const [folderNum, setFolderNum] = useState();
+  const [folderName, setFolderName] = useState([]);
+  const [folderNum, setFolderNum] = useState([]);
   const [folders, setFolders] = useState([]);
   const [makingFolder, setMakingFolder] = useState(true);
   const [folderInfoList, SetFolderInfoList] = useState([]);
   const [newFolderName, SetNewFolderName] = useState('');
   const [loadFolderState, SetLoadFolderState] = useState(0);
-
+  const [changeA, SetChangeA] = useState(0);
+  const [changeB, SetChangeB] = useState(0);
+  const [changeC, SetChangeC] = useState(0);
   // 내 폴더 셀렉트에 쓰기 위한 객체
   const fileInfo = {
     user_num: user_num
@@ -49,19 +51,18 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
   const loadMyFolders = () => {
     axiosInstance.post('/folderListSelect', fileInfo)
       .then((res) => {
-        const tempFolderName = res.data.map((item) => item.folder_name);
-        const tempFolderNum = res.data.map((item) => item.folder_num);
-        setFolderName(tempFolderName);
-        setFolderNum(tempFolderNum);
+        setFolderName(res.data.map((item) => item.folder_name));
+        setFolderNum(res.data.map((item) => item.folder_num));
       })
       .catch(error => {
         console.log(error);
       });
   }
   // folderName, folderNum 활용해서 li태그 뭉탱이 만드는 함수
-  const makeLiTag = () => {
-    // const combinedList = folderName.map((item, index) => [item, folderNum[index]]);
+  const makeLiTagList = () => {
     SetFolderInfoList(folderName.map((item, index) => [item, folderNum[index]]));
+  }
+  const makeLiTag = () => {
     setFolders(folderInfoList.map((item) => (
       <li key={item[1]} onClick={clickFolder} className='folders'>
         <div className='folderContainer'>
@@ -82,6 +83,7 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
     axiosInstance.post('/updateFolderName', folderNameNum)
       .then(() => {
         loadMyFolders();
+        makeLiTagList();
         makeLiTag();
       })
       .catch(error => {
@@ -151,40 +153,20 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
     }
   }
   //최초실행 
-  // useEffect(() => {
-  //   setAllPhotoClicked('allPhotoBtnOn');// 페이지 최초렌더시 전체사진 선택
-  //   allPhoto.current.focus();
-  //   loadMyFolders();
-  //   // makeLiTag();
-  //   console.log('최초실행');
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log('1111111',folderName);
-  //   makeLiTag();
-  //   makeLiTag();
-  //   console.log('두번째실행');
-  // }, [folderName])
-
-  // useEffect(()=>{
-
-  // }, [folderName])
-  const test = () => {
-    console.log('333버튼 클릭');
+  useEffect(() => {
+    setAllPhotoClicked('allPhotoBtnOn');// 페이지 최초렌더시 전체사진 선택
+    allPhoto.current.focus();
     loadMyFolders();
-  }
-  const test4 = () => {
-    console.log('444444버튼');
-    console.log(folderName);
-    console.log(folderNum);
-    makeLiTag();
-    
+  }, []);
 
-  }
-  const test5 = () => {
-    console.log('5555555555버튼');
-    console.log(folders);
-  }
+  useEffect(() => {
+    makeLiTagList();
+  }, [folderName])
+
+  useEffect(() => {
+    makeLiTag();
+  }, [folderInfoList])
+
   return (
     <div id='paSideConatiner'>
       <div id='sideBtnContainer'>
@@ -208,9 +190,6 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
         <span id={favorPhotoClicked} className='sideBtn' onClick={favorPhotoClick}>즐겨찾기</span>
         <span className='sideBtn'>
         </span>
-        <button onClick={test}>33333S</button>
-        <button onClick={test4}>4444444444</button>
-        <button onClick={test5}>55555555555</button>
       </div>
     </div>
   )

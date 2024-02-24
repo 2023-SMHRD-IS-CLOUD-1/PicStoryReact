@@ -6,11 +6,16 @@ import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
+const id_key = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
+const secret_key = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+const region = process.env.REACT_APP_AWS_REGION
+const bucketName = 'codewi';
+
 const config = {
-  bucketName: 'opens3007',
-  region: 'ap-northeast-2',
-  accessKeyId: 'AKIAZQ3DRESJCEVISYPZ',
-  secretAccessKey: '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',
+  bucketName : bucketName,
+  region: region,
+  accessKeyId: id_key,
+  secretAccessKey: secret_key
 };
 
 const s3 = new AWS.S3(config);
@@ -23,6 +28,8 @@ const PAMenu = () => {
   const [uploadingPhotos, setUploadingPhotos] = useState([]); // 업로드 선택한 사진들 배열
   const [uploadingPhotosSizes, setUploadingPhotosSizes] = useState([]); // 업로드 선택한 사진들 사이즈 배열
   const [uploadingPhotoUrl, setUploadingPhotoUrl] = useState([]); // 업로드 선택한 사진들 url
+
+  const userNum = sessionStorage.getItem("user_num")
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
@@ -73,7 +80,7 @@ const PAMenu = () => {
           const fileName = `${uuidv4()}_${file.name}`;
           const params = {
             Bucket: config.bucketName,
-            Key: `folder/${fileName}`,
+            Key: `user_num${userNum}/image/${fileName}`,
             Body: file,
           };
           

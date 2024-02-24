@@ -57,7 +57,7 @@ const Favor = () => {
     const updatedImageUrls = [];
 
     for (const fileName of fileNames) {
-      const s3ObjectKey = `folder/${fileName}`;
+      const s3ObjectKey = `user_num${userNum}/${fileName}`;
 
       const s3Client = new S3Client({
         region: region,

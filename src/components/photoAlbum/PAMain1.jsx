@@ -35,6 +35,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
         user_num: userNum
       });
 
+      console.log(response);
       const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
       const photoFavor = response.data.map(item => item.photo_favor);
 
@@ -191,9 +192,9 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
               src={image.url}
               alt={`S3-${index}`}
               loading="lazy"
-              style={{ width: '100%', height: 'auto', maxHeight: '200px', objectFit: 'cover' }}
+              style={{ width: '100px', height: 'auto', maxHeight: '200px', objectFit: 'cover' }}
             />
-            <p>{image.fileName}</p>
+            <p>{image.fileName.length > 15 ? image.fileName.slice(0, 15) + '...' : image.fileName}</p>
           </ImageListItem>
         ))}
       </ImageList>

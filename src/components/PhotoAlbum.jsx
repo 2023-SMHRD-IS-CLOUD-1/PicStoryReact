@@ -44,8 +44,8 @@ const PhotoAlbum = () => {
         <UserLoginContext.Provider value={{login, setLogin, handlerLogout}}>
           <div id='photoAlbum'>
             <Header />
-            <PALeftSide setUploadSuccess={setUploadSuccess} setFileNames={setFileNames} />
-            <PAMenu />
+            <PALeftSide/>
+            <PAMenu setUploadSuccess={setUploadSuccess} setFileNames={setFileNames} />
             <PAMain1 fileNames={fileNames} uploadSuccess={uploadSuccess} />
             {/* <PAMain/> */}
           </div>

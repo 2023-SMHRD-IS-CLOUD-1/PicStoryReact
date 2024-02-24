@@ -20,7 +20,7 @@ const config = {
 
 const s3 = new AWS.S3(config);
 
-const PAMenu = () => {
+const PAMenu = ({ setUploadSuccess, setFileNames }) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
@@ -119,8 +119,8 @@ const PAMenu = () => {
         // 선택한 사진들 DB에 저장.
         try {
           const response = await axiosInstance.post('/imageUpload', data); // 스프링 이미지업로드 쿼리문 실행
-          // setUploadSuccess(true);
-          // setFileNames(fileNames); // PAMain1에서 이미지를 불러오도록 업데이트
+          setUploadSuccess(true);
+          setFileNames(fileNames); // PAMain1에서 이미지를 불러오도록 업데이트
         } catch (error) {
           alert('파일 이름이 너무 김, 업로드 실패');
           console.error('서버 통신 에러:', error);
@@ -136,7 +136,7 @@ const PAMenu = () => {
     };
 
     uploadFiles();
-  }, [uploadingPhotos]);
+  }, [uploadingPhotos, setUploadSuccess, setFileNames]);
 
   return (
     <div id='paMenuContainer'>

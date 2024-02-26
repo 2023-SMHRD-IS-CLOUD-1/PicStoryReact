@@ -17,9 +17,13 @@ function App() {
   const [selectedTagList, setSelectedTagList] = useState([]);
   const [showSelectedTagList, setShowSelectedTagList] = useState([]);
   const [tempList, setTempList] = useState([]);
+  const [allMyFolder, setAllMyFolder] = useState([]);
+  const [selecteMydFolder, setSelectedMyFolder] = useState([]);
+  const [loadPhotosNum, setLoadPhotosNum] = useState([]);
+  const [checkPhotoNum, setCheckPhotoNum] = useState([]);
 
   return (
-    <UserContext.Provider value={{ tempList, setTempList, selectedTagList, setSelectedTagList, showSelectedTagList, setShowSelectedTagList }}>
+    <UserContext.Provider value={{ checkPhotoNum, setCheckPhotoNum, loadPhotosNum, setLoadPhotosNum, selecteMydFolder, setSelectedMyFolder, allMyFolder, setAllMyFolder, tempList, setTempList, selectedTagList, setSelectedTagList, showSelectedTagList, setShowSelectedTagList }}>
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>

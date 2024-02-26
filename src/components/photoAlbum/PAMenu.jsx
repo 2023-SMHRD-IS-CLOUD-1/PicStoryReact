@@ -6,6 +6,7 @@ import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import { UserContext } from '../../contexts/User';
+import { useRef } from 'react';
 
 const id_key = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
 const secret_key = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
@@ -35,6 +36,12 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
   const { tempList, setTempList } = useContext(UserContext);
   const { selectedTagList, setSelectedTagList } = useContext(UserContext);
   const { showSelectedTagList, setShowSelectedTagList } = useContext(UserContext);
+  const { selecteMydFolder, setSelectedMyFolder } = useContext(UserContext);
+  const { allMyFolder, setAllMyFolder } = useContext(UserContext);
+  const [allMyFolder1, setAllMyFolder1] = useState([]);
+  const { checkPhotoNum, setCheckPhotoNum } = useContext(UserContext);
+  const [moveFolderModal, setMoveFolderModal] = useState('none');
+  const modalRef = useRef();
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
@@ -251,6 +258,89 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
     setSelectedTagList(tempList);
   }, [tempList])
 
+  useEffect(() => {
+    if (checkPhotoNum.length != []) {
+      console.log('내가 체크한 사진의 포토넘 : ', checkPhotoNum);
+    } else {
+      console.log('체크한 사진 없음.');
+    }
+
+  }, [checkPhotoNum])
+
+  const deleteCheckedPhoto = () => {
+    console.log(checkPhotoNum, '체크트포토넘');
+    if (checkPhotoNum.length == 0) {
+      alert('삭제할 사진을 선택하세요.');
+    } else {
+      axiosInstance.post('/deleteChckedPhoto', checkPhotoNum)
+        .then((res) => {
+          alert('삭제 완료');
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+  }
+
+  const movePhotoToFolder = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      setMoveFolderModal('none');
+    } else if (allMyFolder.length == 0) {
+      alert('폴더를 생성하세요.')
+    } else if (moveFolderModal == 'none') {
+      setMoveFolderModal('block');
+    } else {
+      setMoveFolderModal('none');
+    }
+  }
+
+
+  useEffect(() => {
+    if (moveFolderModal == 'none') {
+      setAllMyFolder1([]);
+    } else {
+      setAllMyFolder1(allMyFolder.map((item, index) => (
+        <div className='moveFolderModal' ref={modalRef} key={index} onClick={() => addToFolder(item)}>
+          {item}
+        </div>
+      ))
+      )
+    }
+  }, [moveFolderModal])
+
+  const addToFolder = (item) => {
+    if (checkPhotoNum.length == 0) {
+      alert('담을 사진을 선택하세요.');
+    } else {
+      const data = {
+        user_num: sessionStorage.getItem('user_num'),
+        folder_name: item
+      }
+      axiosInstance.post('/addPhotoToFolder', data)
+        .then((res) => {
+          const data = {
+            photo_nums: checkPhotoNum,
+            folder_num: res.data.folder_num
+          }
+          axiosInstance.post('/savePhotoInFolder', data)
+            .then((res) => {
+              alert('이동 완료');
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.log(error);
+            })
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      console.log(item);
+      console.log(checkPhotoNum);
+    }
+    setMoveFolderModal('none')
+  }
+
 
   return (
     <div id='paMenuContainer'>
@@ -265,8 +355,11 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         </div>
         <div id='photoControl'>
           <div className='photoControlBtn'>내려받기</div>
-          <div className='photoControlBtn'>폴더에 추가</div>
-          <div className='photoControlBtn'>삭제</div>
+          <div className='photoControlBtn' onClick={movePhotoToFolder}>내 폴더에 담기</div>
+          <div className='moveFolderModalContainer' style={{ display: moveFolderModal }}>
+            {allMyFolder1}
+          </div>
+          <div className='photoControlBtn' onClick={deleteCheckedPhoto}>삭제</div>
         </div>
       </div>
       <div id='tagChooseContainer'>

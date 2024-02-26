@@ -9,6 +9,8 @@ import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import CreateFolderModal from '../CreateFolderModal';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/User';
 /* eslint-disable no-unused-vars */
 
 const config = {
@@ -40,6 +42,9 @@ const PALeftSide = () => {
   const [changeB, SetChangeB] = useState(0);
   const [changeC, SetChangeC] = useState(0);
   const navigate = useNavigate();
+  const {selecteMydFolder, setSelectedMyFolder} = useContext(UserContext);
+  const {allMyFolder, setAllMyFolder} = useContext(UserContext);
+  const {checkPhotoNum, setCheckPhotoNum} = useContext(UserContext);
 
   // 내 폴더 셀렉트에 쓰기 위한 객체
   const fileInfo = {
@@ -55,6 +60,7 @@ const PALeftSide = () => {
       .then((res) => {
         setFolderName(res.data.map((item) => item.folder_name));
         setFolderNum(res.data.map((item) => item.folder_num));
+        setAllMyFolder(res.data.map((item) => item.folder_name))
       })
       .catch(error => {
         console.log(error);

@@ -31,7 +31,10 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
   const [allPhotoFlag, setAllPhotoFlag] = useState(false);
   const region = process.env.REACT_APP_AWS_REGION
   const identityPoolId = process.env.REACT_APP_AWS_IdentityPoolId;
-
+  const { selecteMydFolder, setSelectedMyFolder } = useContext(UserContext);
+  const { allMyFolder, setAllMyFolder } = useContext(UserContext);
+  const { loadPhotosNum, setLoadPhotosNum } = useContext(UserContext);
+  const { checkPhotoNum, setCheckPhotoNum } = useContext(UserContext);
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
@@ -45,7 +48,8 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
 
       const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
       const photoFavor = response.data.map(item => item.photo_favor);
-      
+      setLoadPhotosNum(response.photo_num);
+
       console.log("처음 화면 들어오면 실행되는 이미지 리스트", s3UploadFileNameMap);
       console.log("선택된 태그",selectedTagPhotoName);
 
@@ -119,6 +123,19 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
       }
     });
   };
+
+  useEffect(() => {
+    console.log(selectedImages,'################');
+    if (true) {
+      axiosInstance.post('/loadSelectedPhotoNum', selectedImages.map(item => '"' + item + '"'))
+        .then((res) => {
+          setCheckPhotoNum(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+  }, [selectedImages])
 
   const toggleSelectAll = () => {
     setSelectAll((prevSelectAll) => !prevSelectAll);
@@ -282,7 +299,12 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
 
   }, [selectedTagList])
 
-
+  useEffect(() => {
+    setSelectedTagList([]);
+    SetDbSendTag([]);
+    setTempList([]);
+    setCheckPhotoNum([]);
+  }, [])
   return (
     <div id='paMainContainer'>
       <div style={{ position: 'absolute', right: '42px', top: '119px' }}>

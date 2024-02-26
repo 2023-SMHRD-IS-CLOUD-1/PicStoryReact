@@ -110,3 +110,20 @@
 .custom-file-upload input {
   display: none;
 }
+.moveFolderModalContainer{
+  position: absolute;
+  margin-top: 25px;
+  margin-left: 96px;
+  z-index: 999;
+  background-color: white;
+}
+.moveFolderModal{
+  cursor: pointer;
+  width: 120px;
+  margin-top: 1px;
+  padding-top: 2px;
+  border: 1px solid black;
+}
+.moveFolderModal:hover{
+  background-color: gray;
+}

@@ -26,7 +26,9 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
   const { selectedTagList, setSelectedTagList } = useContext(UserContext);
   const { tempList, setTempList } = useContext(UserContext);
   const [taggedPhotoNum, setTaggedPhotoNum] = useState([]);
-
+  const [selectedTagPhotoName, setSelectedTagPhotoName] = useState([]);
+  const [allPhotoName, setAllPhotoName] = useState([]);
+  const [allPhotoFlag, setAllPhotoFlag] = useState(false);
   const region = process.env.REACT_APP_AWS_REGION
   const identityPoolId = process.env.REACT_APP_AWS_IdentityPoolId;
 
@@ -43,12 +45,26 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
 
       const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
       const photoFavor = response.data.map(item => item.photo_favor);
+      
+      console.log("처음 화면 들어오면 실행되는 이미지 리스트", s3UploadFileNameMap);
+      console.log("선택된 태그",selectedTagPhotoName);
 
-      if (s3UploadFileNameMap.length > 0) {
+      if (s3UploadFileNameMap.length > 0 ) {
         const cleanedFileNames = s3UploadFileNameMap.map(name => name.replace(/"/g, ''));
         const updatedImageUrls = await getImageUrls(cleanedFileNames);
+        console.log("if (s3UploadFileNameMap.length > 0", updatedImageUrls);
+        setAllPhotoName(updatedImageUrls);
+        console.log(allPhotoName,"건휘 확인용")
         setImageUrls(updatedImageUrls);
         setFavorites(photoFavor);
+      }
+
+
+      if (selectedTagPhotoName.length > 0) {
+        const updatedImageUrls = await getImageUrls(selectedTagPhotoName);
+        setImageUrls(updatedImageUrls);
+        setFavorites(photoFavor);
+        setAllPhotoFlag(true);
       }
     } catch (error) {
       console.error('Failed to fetch images:', error);
@@ -91,7 +107,8 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
 
   useEffect(() => {
     fetchImages();
-  }, [uploadSuccess, fileNames]);
+    console.log("이미지 업로드하면 실행 돼");
+  }, [uploadSuccess, fileNames, selectedTagPhotoName]);
 
   const toggleImageSelection = (fileName) => {
     setSelectedImages((prevSelected) => {
@@ -171,6 +188,10 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
   useEffect(() => {
     const filteredArray = dbSendTag.filter(item => item != undefined)
 
+    console.log("filteredArray",filteredArray);
+
+
+
     if (filteredArray.length !== 0) {
       console.log('보내는 데이터', filteredArray);
 
@@ -181,15 +202,21 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
 
           // setTaggedPhotoNum 이후에 실행되도록 보장
           const photoTagNum = {
-            user_num : sessionStorage.getItem('user_num'),
-            photo_num_list : res.data
+            user_num: sessionStorage.getItem('user_num'),
+            photo_num_list: res.data
           };
 
           console.log(photoTagNum, '##########');
 
           axiosInstance.post('/selectTaggedPhoto', photoTagNum)
             .then((res) => {
-              console.log(res, '성공이다!!!!!!!!!');
+              console.log(res.data, '성공이다!!!!!!!!!');
+              const selectedPhotoTag = res.data.map(item => item.s3_photo_name)
+              const cleanedSelectedPhotoTag = selectedPhotoTag.map(name => name.replace(/"/g, ''));
+              setSelectedTagPhotoName(cleanedSelectedPhotoTag)
+
+
+
             })
             .catch((error) => {
               console.log(error);
@@ -198,48 +225,13 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
         .catch(error => {
           console.log(error);
         });
+    }else if(filteredArray.length == 0){
+      setAllPhotoFlag(false);
     }
-}, [dbSendTag]);
+
+  }, [dbSendTag]);
 
 
-  // useEffect(() => {
-  //   const photoTagNum = {
-  //     user_num : sessionStorage.getItem('user_num'),
-  //     photo_num_list : taggedPhotoNum
-  //   }
-  //   console.log(photoTagNum, '##########');
-
-  //   axiosInstance.post('/selectTaggedPhoto', photoTagNum)
-  //     .then((res) => {
-  //       console.log(res, '성공이다!!!!!!!!!');
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     })
-
-  // }, [taggedPhotoNum])
-
-
-
-  //   useEffect(() => {
-  //     const filteredArray = dbSendTag.filter(item => item != undefined)
-
-  //     if (filteredArray.length !== 0) {
-
-  //         const requestData = {
-  //             tags: filteredArray,
-  //             user_num: sessionStorage.getItem("user_num") // 여기에 사용자 번호를 넣어주세요
-  //         };
-
-  //         axiosInstance.post('/loadTaggingPhoto', requestData)
-  //             .then((res) => {
-  //                 console.log(res);
-  //             })
-  //             .catch(error => {
-  //                 console.log(error);
-  //             });
-  //     }
-  // }, [dbSendTag]);
 
   useEffect(() => {
     SetDbSendTag(selectedTagList.map(item => {
@@ -287,39 +279,9 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
         return undefined
       }
     }))
+
   }, [selectedTagList])
 
-  useEffect(() => {
-    setSelectedTagList([]);
-    SetDbSendTag([]);
-    setTempList([]);
-  }, [])
-  // const fetchImages2 = async () => {
-  //   axiosInstance.post('/loadTaggingPhoto', {tag_name : 'selectedTagList'})
-  //     .then(()=>{
-  //       console.log('성공');
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     })
-
-  // try {
-  //   const response = await axiosInstance.post('/loadTaggingPhoto', {
-  //     photo_tag : selectedTagList
-  //   });
-
-  //   const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
-  //   const photoFavor = response.data.map(item => item.photo_favor);
-
-  //   if (s3UploadFileNameMap.length > 0) {
-  //     const cleanedFileNames = s3UploadFileNameMap.map(name => name.replace(/"/g, ''));
-  //     const updatedImageUrls = await getImageUrls(cleanedFileNames);
-  //     setImageUrls(updatedImageUrls);
-  //     setFavorites(photoFavor);
-  //   }
-  // } catch (error) {
-  //   console.error('Failed to fetch images:', error);
-  // }
 
   return (
     <div id='paMainContainer'>
@@ -330,7 +292,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
         />
       </div>
       <ImageList sx={{ width: 1500, height: 800 }} cols={7}>
-        {imageUrls.map((image, index) => (
+        {allPhotoFlag ?  imageUrls.map((image, index) => (
           <ImageListItem key={index} style={{ margin: '3px' }}>
             <div style={{ position: 'absolute', top: 0, left: 0 }}>
               <Checkbox
@@ -354,7 +316,33 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
             />
             <p>{image.fileName.length > 15 ? image.fileName.slice(0, 15) + '...' : image.fileName}</p>
           </ImageListItem>
-        ))}
+        )) : allPhotoName.map((image, index) => (
+          <ImageListItem key={index} style={{ margin: '3px' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0 }}>
+              <Checkbox
+                checked={selectedImages.includes(image.fileName)}
+                onChange={() => toggleImageSelection(image.fileName)}
+              />
+            </div>
+            <div style={{ position: 'absolute', top: 0, right: 0 }}>
+              <IconButton
+                onClick={() => addToFavorites(image.fileName)}
+                sx={{ color: 'white' }}
+              >
+                {favorites.includes(image.fileName) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              </IconButton>
+            </div>
+            <img
+              src={image.url}
+              alt={`S3-${index}`}
+              loading="lazy"
+              style={{ width: '200px', height: 'auto', maxHeight: '200px', objectFit: 'cover' }}
+            />
+            <p>{image.fileName.length > 15 ? image.fileName.slice(0, 15) + '...' : image.fileName}</p>
+          </ImageListItem>
+        ))
+      
+      }
       </ImageList>
       <button onClick={downloadSelectedImages}>선택된 이미지 다운로드</button>
     </div>

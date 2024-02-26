@@ -21,7 +21,7 @@ const config = {
 const s3 = new AWS.S3(config);
 
 
-const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
+const PALeftSide = () => {
 
   const allPhoto = useRef(null);
   const [selectedFolder, setSelectedFolder] = useState('전체사진');
@@ -39,6 +39,8 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
   const [changeA, SetChangeA] = useState(0);
   const [changeB, SetChangeB] = useState(0);
   const [changeC, SetChangeC] = useState(0);
+  const navigate = useNavigate();
+
   // 내 폴더 셀렉트에 쓰기 위한 객체
   const fileInfo = {
     user_num: user_num
@@ -122,6 +124,7 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
 
   // 전체사진 폴더 선택
   const allPhotoClick = () => {
+    navigate("/photoAlbum");
     setAllPhotoClicked('allPhotoBtnOn');
     setFavorPhotoClicked('favorPhotoBtnOff');
     setSelectedFolder('전체사진');
@@ -129,9 +132,12 @@ const PALeftSide = ({ setUploadSuccess, setFileNames }) => {
 
   // 즐겨찾기 폴더 선택
   const favorPhotoClick = () => {
+    navigate('/favorPage');
     setAllPhotoClicked('allPhotoBtnOff');
     setFavorPhotoClicked('favorPhotoBtnOn');
     setSelectedFolder('즐겨찾기');
+
+
   }
 
   // // 폴더버튼 눌렀을 때 하위폴더 드랍다운

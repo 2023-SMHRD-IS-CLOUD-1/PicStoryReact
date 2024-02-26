@@ -1,7 +1,8 @@
 #paMenuContainer {
   width: 88%;
   height: 10vh;
-  margin-left: 12%;
+  margin-left: 15%;
+  margin-top: 10px;
   position: relative;
   display: flex;
 }
@@ -34,10 +35,17 @@
   font-size: 17px;
   cursor: pointer;
   height: min-content;
-  border: 1px solid black;
-  padding-left: 3px;
-  padding-right: 3px;
-  border-radius: 3px;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 7px;
+  background-color: #f8f8f8;
+
+  
+  &:hover{
+    background-color: #3067ea;
+    color: white;
+    font-weight: bold;
+  }
 }
 
 #photoSearchText {
@@ -62,9 +70,23 @@
 #tagChooseBtn {
   font-size: 17px;
   cursor: pointer;
-  border: 1px solid black;
-  border-radius: 3px;
-  padding: 0 3px;
+  border: 1px #ccc solid;
+  border-radius: 5px;
+  padding: 3px;
+  color: #444444;
+  background: #f8f8f8;
+  outline: none;
+
+  &:hover{
+    border: 1px #C6C6C6 solid;
+    box-shadow: 1px 1px 1px #EAEAEA;
+    color: #333333;
+    background: #F7F7F7;
+  }
+
+  &:active{
+    box-shadow: inset 1px 1px 1px #DFDFDF;   
+  }
 }
 
 #selectedTagContainer {
@@ -105,7 +127,9 @@
   border-radius: 7px;
 }
 .custom-file-upload:hover{
-  background-color: lightblue;
+  background-color: #3067ea;
+  color: white;
+  font-weight: bold;
 }
 .custom-file-upload input {
   display: none;

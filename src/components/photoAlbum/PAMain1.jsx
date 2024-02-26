@@ -313,16 +313,17 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
           onChange={toggleSelectAll}
         />
       </div>
-      <ImageList sx={{ width: 1500, height: 800 }} cols={7}>
+      {/* <button onClick={downloadSelectedImages}>선택된 이미지 다운로드</button> */}
+      <ImageList sx={{ width: '100%', height: 800 }} cols={7}>
         {allPhotoFlag ?  imageUrls.map((image, index) => (
-          <ImageListItem key={index} style={{ margin: '3px' }}>
+          <ImageListItem key={index} style={{ margin: '10px' }}>
             <div style={{ position: 'absolute', top: 0, left: 0 }}>
               <Checkbox
                 checked={selectedImages.includes(image.fileName)}
                 onChange={() => toggleImageSelection(image.fileName)}
               />
             </div>
-            <div style={{ position: 'absolute', top: 0, right: 0 }}>
+            <div style={{ position: 'absolute', top: 0, right: '3px' }}>
               <IconButton
                 onClick={() => addToFavorites(image.fileName)}
                 sx={{ color: 'white' }}
@@ -336,17 +337,17 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
               loading="lazy"
               style={{ width: '200px', height: 'auto', maxHeight: '200px', objectFit: 'cover' }}
             />
-            <p>{image.fileName.length > 15 ? image.fileName.slice(0, 15) + '...' : image.fileName}</p>
+            {/* <p>{image.fileName.length > 15 ? image.fileName.slice(0, 15) + '...' : image.fileName}</p> */}
           </ImageListItem>
         )) : allPhotoName.map((image, index) => (
-          <ImageListItem key={index} style={{ margin: '3px' }}>
+          <ImageListItem key={index} style={{ margin: '10px' }}>
             <div style={{ position: 'absolute', top: 0, left: 0 }}>
               <Checkbox
                 checked={selectedImages.includes(image.fileName)}
                 onChange={() => toggleImageSelection(image.fileName)}
               />
             </div>
-            <div style={{ position: 'absolute', top: 0, right: 0 }}>
+            <div style={{ position: 'absolute', top: 0, right: '3px' }}>
               <IconButton
                 onClick={() => addToFavorites(image.fileName)}
                 sx={{ color: 'white' }}
@@ -366,7 +367,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
       
       }
       </ImageList>
-      <button onClick={downloadSelectedImages}>선택된 이미지 다운로드</button>
+      
     </div>
   )
 }

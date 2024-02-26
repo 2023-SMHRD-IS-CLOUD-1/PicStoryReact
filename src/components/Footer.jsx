@@ -11,11 +11,7 @@ const Footer = () => {
         <br/>
         CoC | 팀장 : 최성욱 | 부팀장 : 양재원 | 팀원 : 강채린, 이하연, 함수연
       </p>
-        <ul className='footerUl'>
-          <li className='footerLi'>고객센터</li>
-          <li className='footerLi'>결제문의</li>
-          <li className='footerLi' id='end'>신고하기</li>
-        </ul>
+        
       <img src='/images/003.png' style={{width : '100px', height:'45px'}}/>
       </div>
     </div>

@@ -6,11 +6,11 @@ import Footer from './Footer'
 const AccountPage = () => {
   return (
 
-    <>
-      <Header/>
-      <Account/>
-      <Footer/>
-    </>
+    <div className='all'>
+      <Header />
+      <Account />
+      <Footer />
+    </div>
 
     )
 }

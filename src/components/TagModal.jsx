@@ -119,7 +119,7 @@ const TagModal = ({ setModalOpen }) => {
       <button className='close' onClick={closeModal}>
         X
       </button>
-      <h1 id='modalTitle'>태그 선택</h1>
+      <h2 id='modalTitle'>Tag</h2>
       <div id='tagContainer'>
         {tags}
       </div>

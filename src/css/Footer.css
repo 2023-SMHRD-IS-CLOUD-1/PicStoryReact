@@ -19,25 +19,6 @@
   margin: 10px;
 }
 
-.footerUl{
-  list-style: none;
-  padding: 10px;
-  margin: 0;
-  display: flex;
-  font-family: 'NotoSansKRLight';
-  font-weight: bold;
-  color: rgb(97, 97, 97);
-}
-
-.footerUl .footerLi::after {
-  content: '';
-  display: inline-block;
-  width: 1px;
-  height: 12px;
-  margin: 9px 12px 0;
-  background-color: #ddd;
-  vertical-align: top;
-}
 
 #end::after{
   display: none;

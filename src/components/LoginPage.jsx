@@ -9,11 +9,11 @@ const LoginPage = () => {
 
 
 
-    <>
-      <Header/>
-      <Login/>
-      <Footer/>
-    </>
+    <div className='all'>
+      <Header />
+      <Login />
+      <Footer />
+    </div>
 
     )
 }

@@ -14,24 +14,32 @@
  
 
   /* 모달창 디자인 */
-  background-color: white;
-  border: 1px solid black;
+  background-color: #3067ea;
+  border: 1px solid gray;
   border-radius: 8px;
 }
 
 /* 모달창 내부 X버튼 */
+.container button{
+  background-color: #3067ea;
+}
 .close {
   position: absolute;
   right: 10px;
   top: 10px;
 }
 #modalTitle{
-  margin-top: 10px;
-  margin-left: 10px;
+  margin: 10px 0 13px 10px;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  height: 25px;
 }
 #tagContainer{
   display: flex;
   flex-wrap: wrap;
+  background-color: white;
+  padding: 10px;
 }
 .allTag{
   border: 1px solid black;
@@ -40,8 +48,12 @@
   font-size: 20px;
   padding: 5px;
   margin: 5px;
+  font-family: 'NotoSansKRMedium';
+  font-weight: 300;
 }
 .allTag:hover{
-  background-color: gray;
+  background-color: #3067ea;
+  border: none;
   color: white;
+  padding: 6px;
 }

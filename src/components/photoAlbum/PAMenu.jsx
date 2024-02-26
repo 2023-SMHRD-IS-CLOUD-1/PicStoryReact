@@ -346,7 +346,7 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
     <div id='paMenuContainer'>
       <div id='paMenuOption'>
         <div id='photoSelectAll'>
-          전체선택<input type="checkbox" />
+          {/* 전체선택<input type="checkbox" /> */}
           <label className="custom-file-upload">
             <input type="file" multiple onChange={uploadMyPhoto} accept='image/*' />
             사진 업로드

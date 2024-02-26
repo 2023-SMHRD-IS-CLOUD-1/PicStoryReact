@@ -6,6 +6,7 @@
   display: flex;
   flex-wrap: wrap;
   padding-left: 40px;
+  overflow: hidden;
 }
 #paMainPhotoContainer{
   background-color: #E8F5FF;

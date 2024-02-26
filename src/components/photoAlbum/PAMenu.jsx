@@ -25,6 +25,7 @@ const s3 = new AWS.S3(config);
 const PAMenu = ({ setUploadSuccess, setFileNames }) => {
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [similarModalOpen, setSimilarModalOpen] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [uploadingPhotos, setUploadingPhotos] = useState([]); // 업로드 선택한 사진들 배열
@@ -41,6 +42,7 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
   const [allMyFolder1, setAllMyFolder1] = useState([]);
   const { checkPhotoNum, setCheckPhotoNum } = useContext(UserContext);
   const [moveFolderModal, setMoveFolderModal] = useState('none');
+  const [modalImages, setModalImages] = useState([]);
   const modalRef = useRef();
 
   const axiosInstance = axios.create({
@@ -104,21 +106,47 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         const fileNameList = response.data.file_name_list;
 
         // 각 파일 이름에 대해 S3에서 이미지 URL 가져오기
-        const imageURLs = [];
+        const similarImageUrls = [];
         for (const fileName of fileNameList) {
-          const imageURL = await getImageURL(fileName);
-          imageURLs.push(imageURL);
+          const imageUrls = await getImageURL(fileName);
+          similarImageUrls.push(imageUrls);
         }
-        console.log("imageURLs!!!! : ", imageURLs);
+        console.log("imageURLs!!!! : ", similarImageUrls);
+
+        openModalWithImages(similarImageUrls);
+
       };
     } catch (error) {
       console.error('유사이미지 오류:', error);
     }
   };
 
-  // 모달 창 열고 이미지 띄우기
-  const openModalWithImages = (imageURLs) => {
-    console.log("유사이미지 모달 구현~~~");
+  // 유사이미지모달 창 열고 이미지 띄우기
+  const openModalWithImages = (imageUrls) => {
+
+    setModalImages(imageUrls); // 모달에 표시할 이미지 배열 설정
+    setSimilarModalOpen(true);
+  };
+
+  // 유사이미지 모달 컴포넌트
+  const SimilarModal = ({ similarModalOpen, setSimilarModalOpen, modalImages, }) => {
+    const handleCloseModal = () => {
+      setSimilarModalOpen(false);
+      setModalImages([]); // 모달이 닫힐 때 modalImages 상태를 초기화
+    };
+    return (
+      <div className={similarModalOpen ? 'modal display-block' : 'modal display-none'}>
+        <div className="modal-overlay" onClick={() => setSimilarModalOpen(false)}></div>
+        <div className="modal-content">
+          <span className="close" onClick={() => setSimilarModalOpen(false)}>&times;</span>
+          <div className="modal-body">
+            {modalImages.map((image, index) => (
+              <img key={index} src={image} alt={`Image ${index}`} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   // 업로드 선택한 사진들 사진정보, 크기, url 배열로 만드는 함수
@@ -372,7 +400,7 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         <div id='photoSelectAll'>
           {/* 전체선택<input type="checkbox" /> */}
           <label className="custom-file-upload">
-            <input type="file" multiple onChange={uploadMyPhoto} accept='image/*' />
+            <input type="file" mul강아지tiple onChange={uploadMyPhoto} accept='image/*' />
             사진 업로드
           </label>
 
@@ -403,7 +431,8 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
       </div>
       <div id='searchContainer'>
         <input type="file" onChange={handleImageChange} />
-        <button onClick={handleUploadImage}>이미지 업로드</button>
+        <button onClick={handleUploadImage}>닮은 이미지 찾기</button>
+        {similarModalOpen && <SimilarModal similarModalOpen={similarModalOpen} setSimilarModalOpen={setSimilarModalOpen} modalImages={modalImages} />}
       </div>
     </div>
   )

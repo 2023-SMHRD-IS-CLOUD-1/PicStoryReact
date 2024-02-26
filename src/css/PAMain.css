@@ -1,65 +1,231 @@
-#paMainContainer {
-  width: 85%;
-  height: 80.8vh;
-  margin-left: 12%;
-  overflow-y: scroll;
+#paMenuContainer {
+  width: 88%;
+  height: 10vh;
+  margin-left: 15%;
+  margin-top: 10px;
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  padding-left: 40px;
-  overflow: hidden;
 }
-#paMainPhotoContainer{
-  background-color: #E8F5FF;
-  border: 1px solid gray;
-  border-radius: 5px;
-  width: 190px;
-  height: 210px;
-  margin-top: 5px;
+
+#paMenuOption {
+  display: flex;
+  margin-top: 7px;
   margin-left: 5px;
 }
-.paMainPhoto{
-  margin-top: 2px;
-  width: 190px;
-  height: 150px;
+
+#searchContainer {
+  display: flex;
+  width: 400px;
+  height: 40px;
+  margin: auto;
+  margin-top: 10px;
+  margin-right: 0px;
 }
-.photoCheck{
-  display: none;
-} 
-.checkboxContainer{
-  margin-top: 3px;
-  margin-left: 3px;
+
+#photoSelectAll {
+  font-size: 17px;
 }
-.photoHeader{
+
+#photoControl {
   display: flex;
 }
-.photoCheckLabel{
-  display: inline-block;
-  width: 20px;
+
+.photoControlBtn {
+  margin-left: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  height: min-content;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 7px;
+  background-color: #f8f8f8;
+
+
+  &:hover {
+    background-color: #3067ea;
+    color: white;
+    font-weight: bold;
+  }
+}
+
+#photoSearchText {
+  width: 300px;
   height: 20px;
-  color : #404040;
-  background-color : white;    
+}
+
+#photoSearchBtn {
   border: 1px solid black;
-  border-radius: 3px;
-  text-align: center;
+  margin-left: 5px;
+  margin-top: 1PX;
+  height: 23px;
+  cursor: pointer;
 }
-.photoCheckLabel:hover{
-  background-color: skyblue;
-}
-.favorBtnContainer{
-  margin-left: 135px;
-  font-size: 30px;
-  position: relative;
-  
-}
-.photoTitle{
-  font-size: 13px;
-  text-align: center;
-}
-.favorBtn{
+
+#tagChooseContainer {
   position: absolute;
-  top: -10px;
+  margin-top: 65px;
+  margin-left: 5px;
 }
-.favorBtn:hover{
-  cursor: default;
-  color: skyblue;
+
+#tagChooseBtn {
+  font-size: 17px;
+  cursor: pointer;
+  border: 1px #ccc solid;
+  border-radius: 5px;
+  padding: 3px;
+  color: #444444;
+  background: #f8f8f8;
+  outline: none;
+
+  &:hover {
+    border: 1px #C6C6C6 solid;
+    box-shadow: 1px 1px 1px #EAEAEA;
+    color: #333333;
+    background: #F7F7F7;
+  }
+
+  &:active {
+    box-shadow: inset 1px 1px 1px #DFDFDF;
+  }
+}
+
+#selectedTagContainer {
+  position: absolute;
+  display: flex;
+  margin-top: 66px;
+  margin-left: 90px;
+  font-size: 17px;
+}
+
+.selectedTags {
+  margin-left: 20px;
+  font-size: 14px;
+}
+
+.tagContainer {
+  display: flex;
+}
+
+.tagDelete {
+  margin-top: 2px;
+  color: gray;
+  cursor: pointer;
+}
+
+.tagDelete:hover {
+  color: black;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  border-radius: 7px;
+}
+
+.custom-file-upload:hover {
+  background-color: #3067ea;
+  color: white;
+  font-weight: bold;
+}
+
+.custom-file-upload input {
+  display: none;
+}
+
+.moveFolderModalContainer {
+  position: absolute;
+  margin-top: 25px;
+  margin-left: 96px;
+  z-index: 999;
+  background-color: white;
+}
+
+.moveFolderModal {
+  cursor: pointer;
+  width: 120px;
+  margin-top: 1px;
+  padding-top: 2px;
+  border: 1px solid black;
+}
+
+.moveFolderModal:hover {
+  background-color: gray;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  /* 화면 세로 중앙 정렬 */
+  left: 50%;
+  /* 화면 가로 중앙 정렬 */
+  transform: translate(-50%, -50%);
+  /* 화면 가운데로 이동 */
+  width: 80%;
+  /* 모달 너비 */
+  max-width: 800px;
+  /* 모달 최대 너비 */
+  height: auto;
+  /* 모달 높이 자동 조정 */
+  max-height: 80vh;
+  /* 모달 최대 높이 */
+  background-color: rgba(37, 37, 37, 0.77);
+  /* 배경색과 투명도 조정 */
+  z-index: 1000;
+  /* 가장 위에 표시 */
+  display: flex;
+  flex-direction: column;
+  /* 내용을 세로로 정렬 */
+  border-radius: 10px;
+  /* 테두리 둥글게 */
+  overflow-y: auto;
+  /* 내용이 넘칠 경우 스크롤 표시 */
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  /* 커서를 마우스 아이콘으로 변경하여 클릭 가능한 영역을 나타냄 */
+}
+
+.modal-content {
+  padding: 20px;
+  /* 내용과 모달 테두리 간격 설정 */
+  border-radius: 5px;
+  /* 모달 테두리를 둥글게 만듦 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* 그림자 효과 추가 */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+  /* 닫기 버튼 색상 */
+}
+
+.modal-body {
+  display: flex;
+  flex-wrap: wrap; /* 이미지를 행렬 형태로 배치 */
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-body img {
+  max-width: calc(50% - 20px); /* 이미지 너비 */
+  max-height: 50vh; /* 이미지 높이 */
+  margin: 10px; /* 이미지 간격 조정 */
+  border-radius: 5%;
 }

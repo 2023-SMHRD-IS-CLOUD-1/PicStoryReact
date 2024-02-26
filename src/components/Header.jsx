@@ -35,7 +35,7 @@ const Header = () => {
   return (
     <div id='header-container'>
       <div id='header-inner'>
-        <Link to='/' id='logo'><img src="/images/003.png" alt="로고" style={logo} /></Link>
+        <Link to='/' id='logo'><img src="/images/003.png" alt="로고"/></Link>
         <div id='loginContainer'>
           {loginState
             ? (<><Link to='/' className='loginBtn11' onClick={deleteSession}>로그아웃</Link> <Link to='/myinfo' className='loginBtn11'>마이 페이지</Link></>)

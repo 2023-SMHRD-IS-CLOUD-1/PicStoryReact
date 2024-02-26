@@ -8,14 +8,18 @@ import Button from '@mui/material/Button';
 import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
-import { BrowserRouter as Router, Route, Switch, Link,useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link, useNavigate } from 'react-router-dom';
 
 const Payment = (effect, deps) => {
     const nav = useNavigate();
     const [id, setId] = useState('');
     const [name, setName] = useState('');
     const [mail, setMail] = useState('');
-    const [premium , setPremium] = useState('');
+    const [premium, setPremium] = useState('');
+    const user_num = sessionStorage.getItem("user_num");
+    const axiosInstance = axios.create({
+        baseURL: "http://localhost:8099/picstory",
+    });
 
     useEffect(() => {
         // setId(sessionStorage.getItem("user_id"));
@@ -23,7 +27,7 @@ const Payment = (effect, deps) => {
         // setMail(sessionStorage.getItem("user_mail"));
         // setPremium(sessionStorage.getItem("user_premium"));
 
-        console.log('결제페이지',id,name,mail,'!!!');
+        console.log('결제페이지', id, name, mail, '!!!');
         const jquery = document.createElement("script");
         jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
         const iamport = document.createElement("script");
@@ -43,7 +47,7 @@ const Payment = (effect, deps) => {
             pg: 'html5_inicis', // PG사 (필수항목)
             pay_method: 'card', // 결제수단 (필수항목)
             merchant_uid: `mid_${new Date().getTime()}`, // 결제금액 (필수항목)
-            name: '결제 테스트', // 주문명 (필수항목)
+            name: '결제', // 주문명 (필수항목)
             amount: '100', // 금액 (필수항목)
             //custom_data: { userId: {id}, desc: '세부 부가정보' },
             custom_data: { userId: '부가정보', desc: '세부 부가정보' },
@@ -56,12 +60,35 @@ const Payment = (effect, deps) => {
             buyer_postalcode: '1234'
         };
         IMP.request_pay(data, callback);
+        console.log("user_num : ",user_num);
+
     }
 
     const callback = (response) => {
         const { success, error_msg, imp_uid, merchant_uid, pay_method, paid_amount, status } = response;
         if (success) {
             alert('결제 성공');
+            // 결제 성공 시 사용자 정보를 서버로 전송
+            const userData = {
+                user_id: id,
+            };
+
+            axiosInstance.post("/payment", {
+                user_num: user_num
+            }).then(res => {
+                console.log("결과는 : ", res.data)
+                // if (res.data === '') {
+                //     alert('로그인 정보가 일치하지 않습니다.');
+    
+                // } else if (res.data.user_id === id && res.data.user_pw === pw) {
+                //     console.log("아이디와 비밀번호 일치")
+                //     sessionStorage.setItem("user_id", id);
+                //     sessionStorage.setItem("user_num", res.data.user_num);
+                //     nav('/');
+                // }
+            }).catch(error => {
+                console.error("에러:", error.message);
+            });
             nav('/myinfo');
         } else {
             alert(`결제 실패 : ${error_msg}`);

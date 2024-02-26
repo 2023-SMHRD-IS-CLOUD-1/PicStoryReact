@@ -32,9 +32,9 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
   const [tempTag, setTempTah] = useState([]);
   const userNum = sessionStorage.getItem("user_num")
   const [deleteTagName, setDeleteTagname] = useState('');
-  const {tempList, setTempList} = useContext(UserContext);
-  const {selectedTagList, setSelectedTagList } = useContext(UserContext);
-  const {showSelectedTagList, setShowSelectedTagList} = useContext(UserContext);
+  const { tempList, setTempList } = useContext(UserContext);
+  const { selectedTagList, setSelectedTagList } = useContext(UserContext);
+  const { showSelectedTagList, setShowSelectedTagList } = useContext(UserContext);
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
@@ -54,6 +54,39 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         link.download = fileName;
         link.click();
       }
+    }
+  };
+
+  // 유사이미지 찾기!!!!
+  const [selectedImage, setSelectedImage] = useState(null);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedImage(file);
+  };
+  const handleUploadImage = async () => {
+    if (!selectedImage) {
+      console.error('이미지를 선택하세요.');
+      return;
+    }
+
+    try {
+      // 파일을 base64 문자열로 변환
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedImage);
+      reader.onloadend = async () => {
+        const base64Data = reader.result;
+
+        // Flask 서버에 이미지 데이터와 사용자 식별번호 전송
+        const response = await axios.post('http://52.41.65.59:4007/predict', {
+          user_num: userNum,
+          image_data: base64Data
+        });
+
+
+        console.log('유사이미지 응답:', response.data);
+      };
+    } catch (error) {
+      console.error('유사이미지 오류:', error);
     }
   };
 
@@ -94,6 +127,23 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
           return { fileName, fileUrl: data.Location };
         }));
 
+        //인덱스파일 생성함수
+        const updateUserIndex = async (userNum) => {
+          const apiUrl = 'http://52.41.65.59:4006/update'; // Flask 서버 URL
+          console.log("url : ", apiUrl);
+          try {
+            // axios.put 요청에서 두 번째 인자는 요청 본문(body)이고, 세 번째 인자에 요청 헤더를 정의할 수 있습니다.
+            const response = await axios.put(apiUrl, { user_num: userNum }, {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            console.log("결과 : ", response.data.message);
+          } catch (error) {
+            console.error('Error updating user index:', error);
+          }
+        };
+
         // S3에 있는 데이터 가져오기(원파일명, 사진경로, 사용자 파일명)
         const fileNames = uploadedFileData.map((fileData) => fileData.fileName);
         const fileURLs = uploadedFileData.map((fileData) => fileData.fileUrl);
@@ -126,11 +176,36 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
           const response = await axiosInstance.post('/imageUpload', data); // 스프링 이미지업로드 쿼리문 실행
           setUploadSuccess(true);
           setFileNames(fileNames); // PAMain1에서 이미지를 불러오도록 업데이트
+          console.log("서버응답 : ", response.data); // 특징벡터들 출력
+          const featureDataArray = response.data.images;
+
+          //특징벡터 s3에 저장
+          featureDataArray.forEach(async (item) => {
+            const featureData = item.features[0];
+            const jsonData = JSON.stringify(featureData);
+            const s3Key = `user_num${userNum}/vector/${item.filename.split('.')[0]}.json`;
+
+            try {
+              await s3.upload({
+                Bucket: config.bucketName,
+                Key: s3Key,
+                Body: jsonData,
+                ContentType: 'application/json',
+              }).promise();
+
+              console.log(`특징 벡터가 ${s3Key}로 업로드되었습니다.`);
+              console.log("쫌!!!!");
+              updateUserIndex(userNum);
+
+            } catch (err) {
+              console.error(`${item.filename}의 특징 벡터 업로드 중 오류 발생:`, err);
+            }
+          });
+
         } catch (error) {
           alert('파일 이름이 너무 김, 업로드 실패');
           console.error('서버 통신 에러:', error);
         }
-
 
         setUploadingPhotoUrl(fileURLs);
         setUploadingPhotos([]); // 업로드 후에 selectedFiles 초기화
@@ -162,17 +237,17 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
       return null; // index가 0인 경우는 건너뛰기
     }));
   }, [tempList]);
-  
+
 
   const deleteSelectTag = (item) => {
     setDeleteTagname(item);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setTempList(tempList.filter(item => item !== deleteTagName));
-  },[deleteTagName])
+  }, [deleteTagName])
 
-  useEffect(()=>{
+  useEffect(() => {
     setSelectedTagList(tempList);
   }, [tempList])
 
@@ -210,8 +285,8 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         </div> */}
       </div>
       <div id='searchContainer'>
-        <input type="text" placeholder='사진 이름으로 검색해 보세요.' id='photoSearchText' />
-        <div id='photoSearchBtn'>검색</div>
+        <input type="file" onChange={handleImageChange} />
+        <button onClick={handleUploadImage}>이미지 업로드</button>
       </div>
     </div>
   )

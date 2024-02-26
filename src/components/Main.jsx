@@ -35,7 +35,7 @@ const Main = () => {
           <Link to='/photoAlbum' id='goPhotoAlbumBtn' onClick={goPhotoAlbum}><span>PicStory▶</span></Link>
         </div>
         <div id='mainImgContainer'>
-          <img src="/images/mainimg.png" alt="홈메인이미지" id='mainImg'/>
+          <img src="/images/mainimg2.png" alt="홈메인이미지" id='mainImg'/>
         </div>
       </div>
       <div id='mainImg2Container'>

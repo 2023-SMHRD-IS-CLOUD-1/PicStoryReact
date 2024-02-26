@@ -17,6 +17,11 @@ code {
 	src: url(./assets/fonts/NotoSansKR-Light.ttf);
 }
 
+@font-face {
+	font-family: "NotoSansKRMedium";
+	src: url(./assets/fonts/NotoSansKR-Medium.ttf);
+}
+
 
 :root {
 	--font-googleGugi: "googleGugi";

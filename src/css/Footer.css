@@ -1,13 +1,32 @@
 #footerContainer {
-  background-color: rgb(70, 70, 70);
-  height: 150px;
+  background-color: whitesmoke;
+  height: 210px;
   width: 100%;
   text-align: center;
+  justify-items: center;
   position: absolute;
   bottom: 0;
+  padding: 13px;
 }
 #footerContent {
   margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#footerContent p {
+  font-family: 'NotoSansKRLight';
+  margin: 10px;
+}
+
+.footerUl{
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  display: flex;
+  font-family: 'NotoSansKRLight';
+  font-weight: bold;
+  color: rgb(97, 97, 97);
 }
 
 .footerUl .footerLi::after {

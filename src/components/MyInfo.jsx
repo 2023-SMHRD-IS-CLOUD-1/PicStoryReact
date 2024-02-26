@@ -22,6 +22,8 @@ const MyInfo = () => {
     const [pwMessage, setPwMessage] = useState(false);
     const [nickMessage, setNickMessage] = useState();
     const [mailMessage, setMailMessage] = useState();
+    const [tagList, setTagList] = useState([]);
+
     
     const [isEditMode, setIsEditMode] = useState(false);
     const [editPw, setEditPw] = useState('');
@@ -62,6 +64,7 @@ const MyInfo = () => {
                 setMail(res.data.myinfo.user_mail);
                 setPremium(res.data.myinfo.user_premium);
                 setCount(res.data.countPhoto);
+                setTagList(res.data.tagList);
             }
         }).catch(error => {
             console.error("에러:", error.message);
@@ -334,25 +337,32 @@ const MyInfo = () => {
                 ) : (
                     <button onClick={handleEditClick} className='buttonBlue'>수정하기</button>
                 )}
+                <button className='buttonWhite'onClick={showModal}>회원탈퇴</button>
+                {modalOpen && <DeleteUserModal setModalOpen={setModalOpen} pw={pw}/>}
                 {premium ? (
-                    <Link to="/Payment">프리미엄 구독</Link>
+                    <button className='buttonWhite'><Link to="/Payment">프리미엄 구독</Link></button>
                 ) : (
                     <button>구독취소</button>
                 )}
-                <button className='buttonWhite'onClick={showModal}>회원탈퇴</button>
-                {modalOpen && <DeleteUserModal setModalOpen={setModalOpen} pw={pw}/>}
+                
           </div>
 
           <div className='info-box-l'>
-            <h2>태그들</h2>
+            <h2>태그 목록</h2>
             <div className='tag-box'>
-                <div className='tag'>동물</div>
+                <div className='tag'>건물</div>
+                <div className='tag'>의류</div>
+                <div className='tag'>차량</div>
+                <div className='tag'>스포츠</div>
                 <div className='tag'>음식</div>
-                <div className='tag'>풍경</div>
+                <div className='tag'>식물</div>
+                <div className='tag'>동물</div>
                 <div className='tag'>사람</div>
-                <div className='tag'>사람</div>
-                <div className='tag'>사람</div>
-                <div className='tag'>사람</div>
+                <div className='tag'>문서</div>
+                <div className='tag'>가구</div>
+                  {tagList.map(tag => (
+                      <div className='tag'>{tag}</div>
+                  ))}
             </div>
           </div>
 

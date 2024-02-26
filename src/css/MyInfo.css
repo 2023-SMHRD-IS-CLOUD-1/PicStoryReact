@@ -133,3 +133,24 @@
     padding: 5px 0px;
     border-radius: 10px;
 }
+#test1111{
+    z-index: 99999;
+}
+#titleConatiner{
+    display: flex;
+}
+#titleConatiner h2 {
+    display: block;
+}
+#addTagContainer{
+    display: flex;
+    position: absolute;
+    right: 300px;
+    margin-top: 30px;
+}
+#addTagContainer input {
+    margin-right: 10px;
+}
+#addTagContainer button {
+    cursor: pointer;
+}

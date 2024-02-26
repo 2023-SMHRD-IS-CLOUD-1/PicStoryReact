@@ -293,7 +293,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
       } else if (item == '도서') {
         return 'books'
       } else {
-        return undefined
+        return item
       }
     }))
 

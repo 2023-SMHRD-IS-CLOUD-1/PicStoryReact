@@ -18,6 +18,7 @@ const TagModal = ({ setModalOpen }) => {
   const { tempList, setTempList } = useContext(UserContext);
   const { showSelectedTagList, setShowSelectedTagList } = useContext(UserContext);
   const [selectTagName, setSelectTagName] = useState();
+  const [customTag, setCustomTag] = useState([]);
 
   const userInfo = {
     user_num: loginedUserNum
@@ -35,14 +36,26 @@ const TagModal = ({ setModalOpen }) => {
       })
   }, [])
 
+  // 프리미엄 여부와 관계없이 해당 사용자의 커스텀 태그 가져오기
+  useEffect(() => {
+    axiosInstance.post('/getCustomTag', userInfo)
+      .then((res) => {
+        try{setCustomTag(res.data);}
+        catch{}
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }, [userPremiumInfo])
+
   // 가입여부 가져왔으면 등급에 맞게 태그리스트 바꿔주기
   useEffect(() => {
     if (userPremiumInfo === '10') {
       setTagList(['건물', '의류', '차량', '스포츠', '음식', '식물', '동물', '사람', '가구', '문서'])
     } else {
-      setTagList(['건물', '의류', '차량', '스포츠', '음식', '식물', '동물', '사람', '가구', '자연 및 풍경', '개', '고양이', '바다', '하늘', '야경', '디저트', '음료', '예술', ' 뷰티&미용', '도서'])
+      setTagList(['건물', '의류', '차량', '스포츠', '음식', '식물', '동물', '사람', '가구', '자연 및 풍경', '개', '고양이', '바다', '하늘', '야경', '디저트', '음료', '예술', ' 뷰티&미용', '도서'].concat(customTag))
     }
-  }, [userPremiumInfo])
+  }, [customTag])
 
   // 태그리스트 바꼈으면 div 태그 만들어주기
   useEffect(() => {

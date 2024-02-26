@@ -23,7 +23,7 @@ const MyInfo = () => {
     const [nickMessage, setNickMessage] = useState();
     const [mailMessage, setMailMessage] = useState();
     const [tagList, setTagList] = useState([]);
-
+    const [tag, setTag] = useState("");
     
     const [isEditMode, setIsEditMode] = useState(false);
     const [editPw, setEditPw] = useState('');
@@ -42,6 +42,27 @@ const MyInfo = () => {
     const axiosInstance = axios.create({
         baseURL: "http://localhost:8099/picstory",
       })
+
+    function createTag() {
+        axiosInstance.post("/createTag", {
+          user_num: sessionStorage.getItem("user_num"),
+          user_tag_name: tag
+      })
+        .then(res => {
+            prompt('태그가 생성되었습니다')
+            window.location.reload();
+        }).catch(error => {
+          console.error("에러:", error.message);
+        });
+    }
+
+    const handleInputChange = (event) => {
+        // 입력된 값 가져오기
+        const value = event.target.value;
+        // 상태 변수 업데이트
+        setTag(value);
+        console.log(tag)
+      };
 
     useEffect(() => {
 
@@ -348,7 +369,13 @@ const MyInfo = () => {
           </div>
 
           <div className='info-box-l'>
-            <h2>태그 목록</h2>
+            <div id='titleConatiner'>
+                <h2>태그 목록</h2>
+                <div id='addTagContainer'>
+                    <input style={{ width: '150px', height:'30px',display: 'block' }} type="text" value={tag} onChange={handleInputChange} placeholder="커스텀 태그 입력" />
+                    <button onClick={createTag}>태그생성</button>
+                </div>
+            </div>
             <div className='tag-box'>
                 <div className='tag'>건물</div>
                 <div className='tag'>의류</div>

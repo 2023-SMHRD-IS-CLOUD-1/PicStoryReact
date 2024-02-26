@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Checkbox from '@mui/material/Checkbox';
@@ -10,6 +10,7 @@ import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import '../../css/PAMain.css';
+import { UserContext } from '../../contexts/User';
 
 const userNum = sessionStorage.getItem("user_num");
 
@@ -20,10 +21,15 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
   const [favorites, setFavorites] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const userNum = sessionStorage.getItem("user_num");
+  const [dbSendTag, SetDbSendTag] = useState([]);
+  const { showSelectedTagList, setShowSelectedTagList } = useContext(UserContext);
+  const { selectedTagList, setSelectedTagList } = useContext(UserContext);
+  const { tempList, setTempList } = useContext(UserContext);
+  const [taggedPhotoNum, setTaggedPhotoNum] = useState([]);
 
   const region = process.env.REACT_APP_AWS_REGION
   const identityPoolId = process.env.REACT_APP_AWS_IdentityPoolId;
- 
+
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
@@ -35,7 +41,6 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
         user_num: userNum
       });
 
-      console.log(response);
       const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
       const photoFavor = response.data.map(item => item.photo_favor);
 
@@ -122,7 +127,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
 
           })
           .catch(error => {
-            console.error(error);
+            console.log(error);
           });
 
 
@@ -163,6 +168,136 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
     }
   };
 
+  useEffect(() => {
+    const filteredArray = dbSendTag.filter(item => item != undefined)
+
+    if (filteredArray.length != 0) {
+      console.log('보내는 데이터', filteredArray);
+      axiosInstance.post('/loadTaggingPhoto', filteredArray)
+        .then((res) => {
+          setTaggedPhotoNum(res);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
+  }, [dbSendTag])
+
+  useEffect(() => {
+    const photoTagNum = {
+      user_num : sessionStorage.getItem('user_num'),
+      photo_num_list : taggedPhotoNum.data
+    }
+    console.log(photoTagNum.photo_num, '##########');
+    axiosInstance.post('/selectTaggedPhoto', photoTagNum)
+      .then((res) => {
+        console.log(res, '성공이다!!!!!!!!!');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+  }, [taggedPhotoNum])
+  //   useEffect(() => {
+  //     const filteredArray = dbSendTag.filter(item => item != undefined)
+
+  //     if (filteredArray.length !== 0) {
+
+  //         const requestData = {
+  //             tags: filteredArray,
+  //             user_num: sessionStorage.getItem("user_num") // 여기에 사용자 번호를 넣어주세요
+  //         };
+
+  //         axiosInstance.post('/loadTaggingPhoto', requestData)
+  //             .then((res) => {
+  //                 console.log(res);
+  //             })
+  //             .catch(error => {
+  //                 console.log(error);
+  //             });
+  //     }
+  // }, [dbSendTag]);
+
+  useEffect(() => {
+    SetDbSendTag(selectedTagList.map(item => {
+      if (item == '건물') {
+        return 'building'
+      } else if (item == '의류') {
+        return 'clothing'
+      } else if (item == '차량') {
+        return 'vehicle'
+      } else if (item == '스포츠') {
+        return 'sports'
+      } else if (item == '음식') {
+        return 'food'
+      } else if (item == '식물') {
+        return 'plant'
+      } else if (item == '동물') {
+        return 'animal'
+      } else if (item == '사람') {
+        return 'person'
+      } else if (item == '가구') {
+        return 'furniture'
+      } else if (item == '문서') {
+        return 'document'
+      } else if (item == '개') {
+        return 'dog'
+      } else if (item == '고양이') {
+        return 'cat'
+      } else if (item == '바다') {
+        return 'sea'
+      } else if (item == '하늘') {
+        return 'sky'
+      } else if (item == '야경') {
+        return 'night view'
+      } else if (item == '디저트') {
+        return 'dessert'
+      } else if (item == '음료') {
+        return 'drink'
+      } else if (item == '예술') {
+        return 'art'
+      } else if (item == '뷰티&미용') {
+        return 'beauty'
+      } else if (item == '도서') {
+        return 'books'
+      } else {
+        return undefined
+      }
+    }))
+  }, [selectedTagList])
+
+  useEffect(() => {
+    setSelectedTagList([]);
+    SetDbSendTag([]);
+    setTempList([]);
+  }, [])
+  // const fetchImages2 = async () => {
+  //   axiosInstance.post('/loadTaggingPhoto', {tag_name : 'selectedTagList'})
+  //     .then(()=>{
+  //       console.log('성공');
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     })
+
+  // try {
+  //   const response = await axiosInstance.post('/loadTaggingPhoto', {
+  //     photo_tag : selectedTagList
+  //   });
+
+  //   const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
+  //   const photoFavor = response.data.map(item => item.photo_favor);
+
+  //   if (s3UploadFileNameMap.length > 0) {
+  //     const cleanedFileNames = s3UploadFileNameMap.map(name => name.replace(/"/g, ''));
+  //     const updatedImageUrls = await getImageUrls(cleanedFileNames);
+  //     setImageUrls(updatedImageUrls);
+  //     setFavorites(photoFavor);
+  //   }
+  // } catch (error) {
+  //   console.error('Failed to fetch images:', error);
+  // }
+
   return (
     <div id='paMainContainer'>
       <div style={{ position: 'absolute', right: '42px', top: '119px' }}>
@@ -192,7 +327,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
               src={image.url}
               alt={`S3-${index}`}
               loading="lazy"
-              style={{ width: '100px', height: 'auto', maxHeight: '200px', objectFit: 'cover' }}
+              style={{ width: '200px', height: 'auto', maxHeight: '200px', objectFit: 'cover' }}
             />
             <p>{image.fileName.length > 15 ? image.fileName.slice(0, 15) + '...' : image.fileName}</p>
           </ImageListItem>
@@ -200,7 +335,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
       </ImageList>
       <button onClick={downloadSelectedImages}>선택된 이미지 다운로드</button>
     </div>
-  );
-};
+  )
+}
 
 export default PAMain1;

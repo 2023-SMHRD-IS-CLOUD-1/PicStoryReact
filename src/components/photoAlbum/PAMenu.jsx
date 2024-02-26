@@ -5,6 +5,7 @@ import TagModal from '../TagModal';
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import { UserContext } from '../../contexts/User';
 
 const id_key = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
 const secret_key = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
@@ -12,7 +13,7 @@ const region = process.env.REACT_APP_AWS_REGION
 const bucketName = 'codewi';
 
 const config = {
-  bucketName : bucketName,
+  bucketName: bucketName,
   region: region,
   accessKeyId: id_key,
   secretAccessKey: secret_key
@@ -28,8 +29,12 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
   const [uploadingPhotos, setUploadingPhotos] = useState([]); // 업로드 선택한 사진들 배열
   const [uploadingPhotosSizes, setUploadingPhotosSizes] = useState([]); // 업로드 선택한 사진들 사이즈 배열
   const [uploadingPhotoUrl, setUploadingPhotoUrl] = useState([]); // 업로드 선택한 사진들 url
-
+  const [tempTag, setTempTah] = useState([]);
   const userNum = sessionStorage.getItem("user_num")
+  const [deleteTagName, setDeleteTagname] = useState('');
+  const {tempList, setTempList} = useContext(UserContext);
+  const {selectedTagList, setSelectedTagList } = useContext(UserContext);
+  const {showSelectedTagList, setShowSelectedTagList} = useContext(UserContext);
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:8099/picstory",
@@ -73,8 +78,8 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         if (uploadingPhotos.length === 0) {
           return;
         }
-        
-        
+
+
         // S3에 사진 넣는 함수
         const uploadedFileData = await Promise.all(uploadingPhotos.map(async (file) => {
           const fileName = `${uuidv4()}_${file.name}`;
@@ -83,17 +88,17 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
             Key: `user_num${userNum}/image/${fileName}`,
             Body: file,
           };
-          
+
           const data = await s3.upload(params).promise();
-          
+
           return { fileName, fileUrl: data.Location };
         }));
-        
+
         // S3에 있는 데이터 가져오기(원파일명, 사진경로, 사용자 파일명)
         const fileNames = uploadedFileData.map((fileData) => fileData.fileName);
         const fileURLs = uploadedFileData.map((fileData) => fileData.fileUrl);
         const userPhotoName = uploadingPhotos.map((file) => file.name);
-        
+
         // 선택한 폴더 url예외
         if (fileURLs.length === 0) {
           return;
@@ -138,6 +143,40 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
     uploadFiles();
   }, [uploadingPhotos, setUploadSuccess, setFileNames]);
 
+
+  useEffect(() => {
+    setShowSelectedTagList(tempList.map((item, index) => {
+      // index가 1 이상인 경우에만 매핑
+      if (index >= 1) {
+        return (
+          <div key={index} className='tagContainer'>
+            <div className='selectedTags'>
+              {item}
+            </div>
+            <div className='tagDelete' onClick={() => deleteSelectTag(item)}>
+              <HiXMark />
+            </div>
+          </div>
+        );
+      }
+      return null; // index가 0인 경우는 건너뛰기
+    }));
+  }, [tempList]);
+  
+
+  const deleteSelectTag = (item) => {
+    setDeleteTagname(item);
+  };
+
+  useEffect(()=>{
+    setTempList(tempList.filter(item => item !== deleteTagName));
+  },[deleteTagName])
+
+  useEffect(()=>{
+    setSelectedTagList(tempList);
+  }, [tempList])
+
+
   return (
     <div id='paMenuContainer'>
       <div id='paMenuOption'>
@@ -160,14 +199,15 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         {modalOpen && <TagModal setModalOpen={setModalOpen} />}
       </div>
       <div id='selectedTagContainer'>
-        <div className='tagContainer'>
+        {showSelectedTagList}
+        {/* <div className='tagContainer'>
           <div className='selectedTags'>
             #강아지
           </div>
           <div className='tagDelete'>
             <HiXMark />
           </div>
-        </div>
+        </div> */}
       </div>
       <div id='searchContainer'>
         <input type="text" placeholder='사진 이름으로 검색해 보세요.' id='photoSearchText' />

@@ -21,7 +21,7 @@ h1 {
   margin-top: 0;
 }
 #mainTextContainer{
-  width: 400px;
+  width: 450px;
 }
 #mainText {
   display: block;
@@ -41,13 +41,15 @@ h1 {
     margin-top: 15px;
     margin-bottom: 40px;
     font-size: 16px;
+    font-family: 'NotoSansKRMedium';
+    font-weight: 300;
     line-height: 26px;
     letter-spacing: -1px;
     word-break: keep-all;
     animation: slideLeftRight 1s ease forwards;
 }
 #goPhotoAlbumBtn{
-  border: 1px solid white;
+  border: 2px solid white;
   border-radius: 5px;
   color: rgb(255, 255, 255);
   font-size: 25px;
@@ -67,13 +69,13 @@ h1 {
     right: 0;
     width: 0;
     height: 100%;
-    background: #221eeb91;
+    background: white;
     z-index: -1;
     transition: all 0.3s ease;
   }
   
   &:hover {
-    color: #fff;
+    color: #3067ea;
     border: none;
     &:after {
       left: 0;
@@ -88,7 +90,6 @@ h1 {
 }
 #mainImg{
   width: 400px;
-  height: 300px;
   animation: slideRightLeft 1s ease forwards;
 }
 
@@ -97,12 +98,14 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* text-align: center; */
+  text-align: center;
   width: 100%;
-  height: 1000px;
+  height: 900px;
   background-color: white;
 }
 #mainImg2Container h1 {
+  font-family: 'NotoSansKRMedium';;
+  font-weight: 800;
   will-change: transform, opacity;
   animation: fadeEffect 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
@@ -120,6 +123,8 @@ h1 {
   color: rgb(92, 92, 92);
   max-width: 465px;
   font-size: 20px;
+  font-family: 'NotoSansKRMedium';
+  font-weight: lighter;
   line-height: 26px;
   letter-spacing: 1px;
   word-break: keep-all;
@@ -137,12 +142,23 @@ h1 {
   background-color: whitesmoke;
 }
 .title3{
+  font-family: 'NotoSansKRMedium';
+  font-weight: 800;
   animation: fadeEffect 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 .mainListItem{
   display: inline-block;
   width: 350px;
   margin-top: 50px;
+}
+.mainListItem h3{
+  font-family: 'NotoSansKRMedium';
+  font-weight: 600;
+}
+.mainListItem p{
+  font-family: 'NotoSansKRMedium';
+  font-weight: 300;
+  color: rgb(73, 73, 73);
 }
 .mainListItem img{
   width: 200px;

@@ -1,12 +1,22 @@
 #header-container {
   height: 65px;
-  display: flex;
-  justify-content: space-between;
   width: 100%;
+  display: flex;
+  justify-content: center;
   background-color: #f9f9f9;
 }
-#logo {
-  margin-left: 350px;
+#header-inner{
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* #logo {
+  margin-left: 20%;
+} */
+#logo img {
+  width: 144px;
+  height: 65px;
 }
 #text1 {
   display: block;
@@ -14,15 +24,21 @@
 }
 #loginContainer {
   margin: auto 0;
-  margin-right: 350px;
+  margin-right: 0;
   position: relative;
-  margin-top: 40px;
+  margin-top: 35px;
 }
 .loginBtn11 {
   font-size: 15px;
+  font-weight: bolder;
+  font-family: 'NotoSansKRLight';
   text-decoration: none;
   color: inherit;
   margin-left: 15px;
+
+  &:hover{
+    color: #3067EA;
+  }
 }
 .menuBtn{
   background: none;

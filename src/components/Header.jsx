@@ -34,12 +34,14 @@ const Header = () => {
 
   return (
     <div id='header-container'>
-      <Link to='/' id='logo'><img src="/PicStoryLogo.png" alt="로고" style={logo} /></Link>
-      <div id='loginContainer'>
-        {loginState 
-        ? (<><Link to='/' className='loginBtn11' onClick={deleteSession}>로그아웃</Link> <Link to='/myinfo' className='loginBtn11'>마이 페이지</Link></>) 
-        : (<> <Link to='/login' className='loginBtn11'>로그인</Link> <Link to='/join' className='loginBtn11'>회원가입</Link> </>)}
-        
+      <div id='header-inner'>
+        <Link to='/' id='logo'><img src="/images/003.png" alt="로고" style={logo} /></Link>
+        <div id='loginContainer'>
+          {loginState
+            ? (<><Link to='/' className='loginBtn11' onClick={deleteSession}>로그아웃</Link> <Link to='/myinfo' className='loginBtn11'>마이 페이지</Link></>)
+            : (<> <Link to='/login' className='loginBtn11'>로그인</Link> <Link to='/join' className='loginBtn11'>회원가입</Link> </>)}
+
+        </div>
       </div>
     </div>
   )

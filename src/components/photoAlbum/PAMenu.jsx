@@ -64,6 +64,15 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
     }
   };
 
+  // S3에서 이미지 URL 가져오기(유사이미지기능)
+  const getImageURL = async (fileName) => {
+    const imageURL = await s3.getSignedUrlPromise('getObject', {
+      Bucket: bucketName,
+      Key: `user_num${userNum}/image/${fileName}`,
+    });
+    return imageURL;
+  };
+
   // 유사이미지 찾기!!!!
   const [selectedImage, setSelectedImage] = useState(null);
   const handleImageChange = (e) => {
@@ -84,17 +93,32 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         const base64Data = reader.result;
 
         // Flask 서버에 이미지 데이터와 사용자 식별번호 전송
-        const response = await axios.post('http://52.41.65.59:4007/predict', {
+        const response = await axios.post('http://54.70.10.23:4007/predict', {
           user_num: userNum,
           image_data: base64Data
         });
 
-
         console.log('유사이미지 응답:', response.data);
+
+        // 응답에서 파일 이름 목록 추출
+        const fileNameList = response.data.file_name_list;
+
+        // 각 파일 이름에 대해 S3에서 이미지 URL 가져오기
+        const imageURLs = [];
+        for (const fileName of fileNameList) {
+          const imageURL = await getImageURL(fileName);
+          imageURLs.push(imageURL);
+        }
+        console.log("imageURLs!!!! : ", imageURLs);
       };
     } catch (error) {
       console.error('유사이미지 오류:', error);
     }
+  };
+
+  // 모달 창 열고 이미지 띄우기
+  const openModalWithImages = (imageURLs) => {
+    console.log("유사이미지 모달 구현~~~");
   };
 
   // 업로드 선택한 사진들 사진정보, 크기, url 배열로 만드는 함수
@@ -136,7 +160,7 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
 
         //인덱스파일 생성함수
         const updateUserIndex = async (userNum) => {
-          const apiUrl = 'http://52.41.65.59:4006/update'; // Flask 서버 URL
+          const apiUrl = 'http://54.70.10.23:4008/update'; // Flask 서버 URL
           console.log("url : ", apiUrl);
           try {
             // axios.put 요청에서 두 번째 인자는 요청 본문(body)이고, 세 번째 인자에 요청 헤더를 정의할 수 있습니다.
@@ -145,7 +169,7 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
                 'Content-Type': 'application/json'
               }
             });
-            console.log("결과 : ", response.data.message);
+            console.log("인덱스 결과 : ", response.data.message);
           } catch (error) {
             console.error('Error updating user index:', error);
           }
@@ -183,7 +207,7 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
           const response = await axiosInstance.post('/imageUpload', data); // 스프링 이미지업로드 쿼리문 실행
           setUploadSuccess(true);
           setFileNames(fileNames); // PAMain1에서 이미지를 불러오도록 업데이트
-          console.log("서버응답 : ", response.data); // 특징벡터들 출력
+          console.log("특징벡터 : ", response.data); // 특징벡터들 출력
           const featureDataArray = response.data.images;
 
           //특징벡터 s3에 저장

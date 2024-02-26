@@ -361,7 +361,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
               loading="lazy"
               style={{ width: '200px', height: 'auto', maxHeight: '200px', objectFit: 'cover' }}
             />
-            <p>{image.fileName.length > 15 ? image.fileName.slice(0, 15) + '...' : image.fileName}</p>
+            {/* <p>{image.fileName.length > 15 ? image.fileName.slice(0, 15) + '...' : image.fileName}</p> */}
           </ImageListItem>
         ))
       

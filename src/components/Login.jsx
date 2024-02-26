@@ -62,12 +62,12 @@ const Login = () => {
       })
         .then(res => {
           console.log(res.data)
-          console.log(id, pw)
           if (res.data === '') {
             alert('로그인 정보가 일치하지 않습니다.');
 
-          } else if (res.data.user_id === id && res.data.user_pw === pw) {
-            console.log("아이디와 비밀번호 일치")
+          } else{
+            const userId = res.data.user_id
+            const userNum = res.data.user_num
             sessionStorage.setItem("user_id", id);
             sessionStorage.setItem("user_num", res.data.user_num);
             nav('/');

@@ -171,33 +171,56 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
   useEffect(() => {
     const filteredArray = dbSendTag.filter(item => item != undefined)
 
-    if (filteredArray.length != 0) {
+    if (filteredArray.length !== 0) {
       console.log('보내는 데이터', filteredArray);
+
       axiosInstance.post('/loadTaggingPhoto', filteredArray)
         .then((res) => {
-          setTaggedPhotoNum(res);
+          console.log(res.data);
+          setTaggedPhotoNum(res.data);
+
+          // setTaggedPhotoNum 이후에 실행되도록 보장
+          const photoTagNum = {
+            user_num : sessionStorage.getItem('user_num'),
+            photo_num_list : res.data
+          };
+
+          console.log(photoTagNum, '##########');
+
+          axiosInstance.post('/selectTaggedPhoto', photoTagNum)
+            .then((res) => {
+              console.log(res, '성공이다!!!!!!!!!');
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
-  }, [dbSendTag])
+}, [dbSendTag]);
 
-  useEffect(() => {
-    const photoTagNum = {
-      user_num : sessionStorage.getItem('user_num'),
-      photo_num_list : taggedPhotoNum.data
-    }
-    console.log(photoTagNum.photo_num, '##########');
-    axiosInstance.post('/selectTaggedPhoto', photoTagNum)
-      .then((res) => {
-        console.log(res, '성공이다!!!!!!!!!');
-      })
-      .catch((error) => {
-        console.log(error);
-      })
 
-  }, [taggedPhotoNum])
+  // useEffect(() => {
+  //   const photoTagNum = {
+  //     user_num : sessionStorage.getItem('user_num'),
+  //     photo_num_list : taggedPhotoNum
+  //   }
+  //   console.log(photoTagNum, '##########');
+
+  //   axiosInstance.post('/selectTaggedPhoto', photoTagNum)
+  //     .then((res) => {
+  //       console.log(res, '성공이다!!!!!!!!!');
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
+
+  // }, [taggedPhotoNum])
+
+
+
   //   useEffect(() => {
   //     const filteredArray = dbSendTag.filter(item => item != undefined)
 

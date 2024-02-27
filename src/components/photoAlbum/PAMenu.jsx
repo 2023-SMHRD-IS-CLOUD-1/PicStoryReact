@@ -84,7 +84,7 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         const base64Data = reader.result;
 
         // Flask 서버에 이미지 데이터와 사용자 식별번호 전송
-        const response = await axios.post('http://52.41.65.59:4007/predict', {
+        const response = await axios.post('http://54.70.10.23:4007/predict', {
           user_num: userNum,
           image_data: base64Data
         });
@@ -136,7 +136,7 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
 
         //인덱스파일 생성함수
         const updateUserIndex = async (userNum) => {
-          const apiUrl = 'http://52.41.65.59:4006/update'; // Flask 서버 URL
+          const apiUrl = 'http://54.70.10.23:4001/update'; // Flask 서버 URL
           console.log("url : ", apiUrl);
           try {
             // axios.put 요청에서 두 번째 인자는 요청 본문(body)이고, 세 번째 인자에 요청 헤더를 정의할 수 있습니다.

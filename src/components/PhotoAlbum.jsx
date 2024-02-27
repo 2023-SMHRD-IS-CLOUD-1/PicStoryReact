@@ -3,7 +3,6 @@ import PALeftSide from './photoAlbum/PALeftSide'
 import Header from './Header'
 import PAMenu from './photoAlbum/PAMenu'
 import PAMain1 from './photoAlbum/PAMain1'
-import PAMain from './photoAlbum/PAMain'
 import '../css/PhotoAlbum.css';
 import { UserLoginContext } from '../contexts/UserLogin'
 import { useNavigate } from 'react-router-dom'

@@ -37,6 +37,9 @@ const Favor = () => {
       });
 
       const s3UploadFileNameMap = response.data.map(item => item.s3_photo_name);
+      const photoFavor = response.data.map(item => item.photo_favor);
+
+
 
 
       if (s3UploadFileNameMap.length > 0) {
@@ -44,6 +47,7 @@ const Favor = () => {
         // 업로드 후에 이미지 가져오기
         const updatedImageUrls = await getImageUrls(cleanedFileNames);
         setImageUrls(updatedImageUrls);
+        setFavorites(photoFavor);
       }
     } catch (error) {
       console.error('Failed to fetch images:', error);
@@ -188,7 +192,7 @@ const Favor = () => {
                 onClick={() => addToFavorites(image.fileName)}
                 sx={{ color: 'white' }}
               >
-                {favorites.includes(image.fileName) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {favorites[index]==20 ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
 
             </div>

@@ -136,17 +136,21 @@
 }
 .moveFolderModalContainer{
   position: absolute;
-  margin-top: 25px;
-  margin-left: 96px;
+  margin-top: 40px;
+  margin-left: 115px;
   z-index: 999;
   background-color: white;
 }
 .moveFolderModal{
   cursor: pointer;
-  width: 120px;
+  width: 134px;
   margin-top: 1px;
   padding-top: 2px;
-  border: 1px solid black;
+  border: 1px solid gray;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  height: 23px;
+  padding-left: 3px;
 }
 .moveFolderModal:hover{
   background-color: gray;

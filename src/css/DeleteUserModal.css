@@ -34,7 +34,8 @@
     font-size: 20px;
 }
 
-.d-modalContainer form {
+
+.deleteUser {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,6 +74,9 @@
         color: #377be0;
         border: 1px solid #377be0;
     }
+}
+.delBtn:hover{
+    cursor: pointer;
 }
 .pwMessage {
     font-size: 15px;

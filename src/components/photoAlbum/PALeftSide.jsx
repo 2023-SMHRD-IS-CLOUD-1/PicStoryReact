@@ -124,6 +124,7 @@ const PALeftSide = () => {
 
   // 개인 폴더 클릭
   const clickFolder = (e) => {
+    navigate("/userFolderPage");
     setFavorPhotoClicked('favorPhotoBtnOff');
     setAllPhotoClicked('allPhotoBtnOff');
     setSelectedMyFolder(e);

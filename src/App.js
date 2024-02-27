@@ -8,6 +8,7 @@ import { Route, Routes } from "react-router-dom";
 import AccountCheck from "./components/AccountCheck";
 import PayPage from "./components/PayPage";
 import FavorPage from "./components/FavorPage";
+import UserFolderPage from "./components/UserFolderPage";
 
 import './App.css'
 import { UserContext } from "./contexts/User";
@@ -34,6 +35,7 @@ function App() {
         <Route path="/accountCheck" element={<AccountCheck />}></Route>
         <Route path="/Payment" element={<PayPage />}></Route>
         <Route path="/favorPage" element={<FavorPage />}></Route>
+        <Route path="/userFolderPage" element={<UserFolderPage />}></Route>
       </Routes>
     </UserContext.Provider>
   );

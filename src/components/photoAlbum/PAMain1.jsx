@@ -307,29 +307,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
     setSelectedMyFolder([]);
   }, [])
 
-  useEffect(() => {
-    if (selecteMydFolder.length != 0) {
-      const data = {
-        user_num: sessionStorage.getItem('user_num'),
-        folder_name: selecteMydFolder
-      }
-      axiosInstance.post('/findFolderNum', data)
-        .then((res) => {
-          // 폴더에 데이터 없을때(폴더 없음 alert창 뜨고 메인 화면 로고 클릭해서 홈으로 돌아갔다가 다시 사진첩 페이지 
-          //                    오면 페이지 로딩 전에 alert창 또 뜸 >> 새로고침 해야 안뜸)
-          if (res.data.length == 0) {
-            alert('해당 폴더에 사진이 존재하지 않습니다.')
-          // 클릭한 폴더에 사진 데이터 담겨 있으면
-          } else {
-            // res.data = ([{…}, {…}, {…}, {…}]) 객체들의 배열 형태로 나옴.
-            console.log(res.data);
-          }
-        })
-        .catch((error) => {
-          console.log('아오오 씨발', error);
-        })
-    }
-  }, [selecteMydFolder])
+
 
   return (
     <div id='paMainContainer'>

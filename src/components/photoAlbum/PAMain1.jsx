@@ -51,14 +51,14 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
       setLoadPhotosNum(response.photo_num);
 
       console.log("처음 화면 들어오면 실행되는 이미지 리스트", s3UploadFileNameMap);
-      console.log("선택된 태그",selectedTagPhotoName);
+      console.log("선택된 태그", selectedTagPhotoName);
 
-      if (s3UploadFileNameMap.length > 0 ) {
+      if (s3UploadFileNameMap.length > 0) {
         const cleanedFileNames = s3UploadFileNameMap.map(name => name.replace(/"/g, ''));
         const updatedImageUrls = await getImageUrls(cleanedFileNames);
         console.log("if (s3UploadFileNameMap.length > 0", updatedImageUrls);
         setAllPhotoName(updatedImageUrls);
-        console.log(allPhotoName,"건휘 확인용")
+        console.log(allPhotoName, "건휘 확인용")
         setImageUrls(updatedImageUrls);
         setFavorites(photoFavor);
       }
@@ -125,7 +125,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
   };
 
   useEffect(() => {
-    console.log(selectedImages,'################');
+    console.log(selectedImages, '################');
     if (true) {
       axiosInstance.post('/loadSelectedPhotoNum', selectedImages.map(item => '"' + item + '"'))
         .then((res) => {
@@ -205,7 +205,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
   useEffect(() => {
     const filteredArray = dbSendTag.filter(item => item != undefined)
 
-    console.log("filteredArray",filteredArray);
+    console.log("filteredArray", filteredArray);
 
 
 
@@ -242,7 +242,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
         .catch(error => {
           console.log(error);
         });
-    }else if(filteredArray.length == 0){
+    } else if (filteredArray.length == 0) {
       setAllPhotoFlag(false);
     }
 
@@ -304,7 +304,33 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
     SetDbSendTag([]);
     setTempList([]);
     setCheckPhotoNum([]);
+    setSelectedMyFolder([]);
   }, [])
+
+  useEffect(() => {
+    if (selecteMydFolder.length != 0) {
+      const data = {
+        user_num: sessionStorage.getItem('user_num'),
+        folder_name: selecteMydFolder
+      }
+      axiosInstance.post('/findFolderNum', data)
+        .then((res) => {
+          // 폴더에 데이터 없을때(폴더 없음 alert창 뜨고 메인 화면 로고 클릭해서 홈으로 돌아갔다가 다시 사진첩 페이지 
+          //                    오면 페이지 로딩 전에 alert창 또 뜸 >> 새로고침 해야 안뜸)
+          if (res.data.length == 0) {
+            alert('해당 폴더에 사진이 존재하지 않습니다.')
+          // 클릭한 폴더에 사진 데이터 담겨 있으면
+          } else {
+            // res.data = ([{…}, {…}, {…}, {…}]) 객체들의 배열 형태로 나옴.
+            console.log(res.data);
+          }
+        })
+        .catch((error) => {
+          console.log('아오오 씨발', error);
+        })
+    }
+  }, [selecteMydFolder])
+
   return (
     <div id='paMainContainer'>
       <div style={{ position: 'absolute', right: '42px', top: '119px' }}>
@@ -315,7 +341,7 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
       </div>
       {/* <button onClick={downloadSelectedImages}>선택된 이미지 다운로드</button> */}
       <ImageList sx={{ width: '100%', height: 800 }} cols={7}>
-        {allPhotoFlag ?  imageUrls.map((image, index) => (
+        {allPhotoFlag ? imageUrls.map((image, index) => (
           <ImageListItem key={index} style={{ margin: '10px' }}>
             <div style={{ position: 'absolute', top: 0, left: 0 }}>
               <Checkbox
@@ -364,10 +390,10 @@ const PAMain1 = ({ uploadSuccess, fileNames }) => {
             {/* <p>{image.fileName.length > 15 ? image.fileName.slice(0, 15) + '...' : image.fileName}</p> */}
           </ImageListItem>
         ))
-      
-      }
+
+        }
       </ImageList>
-      
+
     </div>
   )
 }

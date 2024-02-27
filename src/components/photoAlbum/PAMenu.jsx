@@ -430,8 +430,9 @@ const PAMenu = ({ setUploadSuccess, setFileNames }) => {
         </div> */}
       </div>
       <div id='searchContainer'>
-        <input type="file" onChange={handleImageChange} />
-        <button onClick={handleUploadImage}>닮은 이미지 찾기</button>
+        <label htmlFor='similarImg'>파일선택</label>
+        <input id='similarImg' type="file" onChange={handleImageChange} />
+        <button className='similarBtn' onClick={handleUploadImage}>닮은 이미지 찾기</button>
         {similarModalOpen && <SimilarModal similarModalOpen={similarModalOpen} setSimilarModalOpen={setSimilarModalOpen} modalImages={modalImages} />}
       </div>
     </div>

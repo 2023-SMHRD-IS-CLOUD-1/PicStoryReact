@@ -228,3 +228,47 @@
   margin: 10px; /* 이미지 간격 조정 */
   border-radius: 5%;
 }
+
+input[type="file"] {
+  display: none; /* 파일 업로드 input 숨기기 */
+}
+
+.similarBtn {
+  margin-left: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  height: min-content;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 7px;
+  background-color: #f8f8f8;
+
+  
+  &:hover{
+    background-color: #3067ea;
+    color: white;
+    font-weight: bold;
+  }
+}
+
+.similarBtn:hover {
+  background-color: #3067ea; /* 마우스 호버 시 버튼 배경색 변경 */
+}
+
+#searchContainer label{
+  margin-left: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  height: min-content;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 7px;
+  background-color: #f8f8f8;
+
+  
+  &:hover{
+    background-color: #3067ea;
+    color: white;
+    font-weight: bold;
+  }
+}

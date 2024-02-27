@@ -72,9 +72,9 @@ const PALeftSide = () => {
   }
   const makeLiTag = () => {
     setFolders(folderInfoList.map((item) => (
-      <li key={item[1]} onClick={clickFolder} className='folders'>
+      <li key={item[1]} onClick={()=>clickFolder(item[0])} className='folders'>
         <div className='folderContainer'>
-          <div className='folderName'>{item[0]}</div>
+          <div className='folderName' >{item[0]}</div>
           <div className='folderOption' onClick={() => updateFolderName(item)}><MdOutlineDriveFileRenameOutline /></div>
           <div className='folderOption' onClick={() => deleteFolder(item)}>X</div>
         </div>
@@ -123,17 +123,18 @@ const PALeftSide = () => {
 
 
   // 개인 폴더 클릭
-  const clickFolder = () => {
+  const clickFolder = (e) => {
     setFavorPhotoClicked('favorPhotoBtnOff');
     setAllPhotoClicked('allPhotoBtnOff');
+    setSelectedMyFolder(e);
   }
-
   // 전체사진 폴더 선택
   const allPhotoClick = () => {
     navigate("/photoAlbum");
     setAllPhotoClicked('allPhotoBtnOn');
     setFavorPhotoClicked('favorPhotoBtnOff');
     setSelectedFolder('전체사진');
+    setSelectedMyFolder([]);
   }
 
   // 즐겨찾기 폴더 선택
@@ -142,20 +143,9 @@ const PALeftSide = () => {
     setAllPhotoClicked('allPhotoBtnOff');
     setFavorPhotoClicked('favorPhotoBtnOn');
     setSelectedFolder('즐겨찾기');
-
-
+    setSelectedMyFolder([]);
   }
 
-  // // 폴더버튼 눌렀을 때 하위폴더 드랍다운
-  // const folderListBtn = () => {
-  //   if (showIcon == '▼') {
-  //     setShowIcon('▶');
-  //     setShow('none');
-  //   } else {
-  //     setShowIcon('▼');
-  //     setShow('block');
-  //   }
-  // }
   // 폴더 생성 버튼 클릭시 작동
   const createFolder = () => {
     if (modalOpen == false) {
@@ -182,7 +172,7 @@ const PALeftSide = () => {
   return (
     <div id='paSideConatiner'>
       <div id='sideBtnContainer'>
-        <span id={allPhotoClicked} className='sideBtn' ref={allPhoto} onClick={allPhotoClick}>전체사진</span>
+      <span id='allPhotoClicked' className='sideBtn' ref={allPhoto} onClick={allPhotoClick}>전체사진</span>
         <div id='folderParentContainer'>
           <div id='folderParent'>
             폴더
@@ -199,7 +189,7 @@ const PALeftSide = () => {
           {folders}
         </ul>
 
-        <span id={favorPhotoClicked} className='sideBtn' onClick={favorPhotoClick}>즐겨찾기</span>
+        <span id='favorPhotoClicked' className='sideBtn' onClick={favorPhotoClick}>즐겨찾기</span>
         <span className='sideBtn'>
         </span>
       </div>
